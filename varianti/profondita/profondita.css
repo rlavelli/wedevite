@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Variante "profondità" (ispirata alle demo Ready co. "Breathtaking" / "Explore").
+   1. Copertina a tre strati: foto, nomi, cime dei pini ritagliate davanti ai nomi.
+   2. Uscita: la copertina si ingrandisce e sfuma nel petrolio.
+   3. Quattro foto inclinate in 3D che si raddrizzano, con le lettere sotto.
+   profondita.js imposta --p (0 → 1) su ogni scena; senza .depth-on tutto è fermo.
+   ========================================================================== */
+
+/* --- 1-2. Copertina a strati ------------------------------------------- */
+.depth { position: relative; background: var(--accento); --p: 0; }
+.depth__stage { position: relative; height: 100vh; height: 100svh; overflow: hidden; color: var(--chiaro); }
+.depth-on .depth { height: 220vh; height: 220svh; }
+.depth-on .depth__stage { position: sticky; top: 0; }
+
+.depth {
+  --zoom: calc(1 + var(--p) * .12);
+  --out: clamp(0, calc((var(--p) - .3) / .45), 1);   /* sfumatura d'uscita */
+}
+.depth__scene { position: absolute; inset: 0; transform: scale(var(--zoom)); transform-origin: 50% 40%; will-change: transform; }
+.depth__layer, .depth__layer picture, .depth__layer img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* foto e pini hanno esattamente lo stesso ritaglio, così combaciano */
+.depth__layer img { object-fit: cover; object-position: 60% 50%; filter: brightness(.86) saturate(1.05); }
+
+/* i nomi stanno tra la foto e i pini e scorrono un po' più in fretta: si vede che passano dietro */
+.depth__names {
+  position: absolute; left: 0; right: 0; top: 30%; margin: 0; padding: 0 5vw;
+  font: 400 clamp(3.4rem, 17vw, 8rem)/.95 var(--script);
+  text-shadow: 0 2px 30px rgba(10, 30, 32, .35);
+  transform: translate3d(0, calc(var(--p) * -9vh), 0);
+}
+.depth__names span { display: block; }
+.depth__names .n1 { text-align: left; }
+.depth__names .amp { text-align: center; font-size: .45em; line-height: 1.1; }
+.depth__names .n2 { text-align: right; }
+
+.depth__phrase, .depth__date { position: absolute; left: 0; right: 0; z-index: 3; margin: 0; text-align: center; opacity: calc(1 - var(--p) * 2.5); }
+.depth__phrase { top: 18%; font: italic 400 clamp(1.35rem, 5vw, 1.9rem)/1.2 var(--serif); }
+.depth__date { top: 58%; font: 400 .8rem/1.6 var(--sans); letter-spacing: .38em; text-transform: uppercase; }
+.depth__fade {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, var(--accento) 75%);
+  opacity: var(--out); transform: translate3d(0, calc((1 - var(--out)) * 30%), 0);
+}
+
+/* --- 3. Quattro foto in 3D con le lettere ------------------------------ */
+.letters { position: relative; background: var(--accento); color: var(--chiaro); --p: 1; }
+.letters__stage { padding: var(--section-y) 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+/* la sezione sale sopra la fine della copertina (trasparente in quel tratto):
+   le foto arrivano mentre la copertina sfuma, senza una schermata vuota in mezzo */
+.depth-on .letters {
+  height: 260vh; height: 260svh; --p: 0; z-index: 1;
+  margin-top: -100vh; margin-top: -100svh;
+  background: linear-gradient(180deg, transparent 0, transparent 100svh, var(--accento) 100svh);
+}
+.depth-on .letters__stage { position: sticky; top: 0; min-height: 100vh; min-height: 100svh; padding: 3rem 0; }
+
+.letters__row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(.6rem, 3vw, 2rem);
+  width: min(92vw, 52rem); perspective: 900px;
+}
+/* --i: ordine di arrivo; --dy: altezze sfalsate come nella demo */
+.letters__item { position: relative; margin: 0; --i: 0; --dy: 1rem; }
+.letters__item:nth-child(2) { --i: 1; --dy: 3rem; }
+.letters__item:nth-child(3) { --i: 2; --dy: -.5rem; }
+.letters__item:nth-child(4) { --i: 3; --dy: 1.75rem; }
+.letters__item { --t: clamp(0, calc((var(--p) - var(--i) * .08) / .5), 1); }
+
+.letters__photo {
+  aspect-ratio: 3 / 4; overflow: hidden; box-shadow: 0 30px 50px -30px rgba(0, 0, 0, .6);
+  transform:
+    translate3d(0, calc(var(--dy) + (1 - var(--t)) * 30vh), 0)
+    rotateX(calc((1 - var(--t)) * 35deg))
+    rotateY(calc((1 - var(--t)) * (var(--i) - 1.5) * -14deg));
+  opacity: calc(var(--t) * 1.6);
+  will-change: transform;
+}
+.letters__photo picture { display: block; width: 100%; height: 100%; }
+.letters__photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.25 - var(--t) * .25)); }
+.letters__char {
+  display: block; margin-top: .4rem; text-align: center;
+  font: 400 clamp(2.6rem, 11vw, 5.5rem)/1 var(--serif); color: var(--chiaro);
+  font-variant-numeric: lining-nums; /* dopo "font:", che lo azzera: niente 0 a forma di o */
+  /* la lettera arriva più lenta della foto: sembra su un piano diverso */
+  transform: translate3d(0, calc(var(--dy) + (1 - var(--t)) * 16vh), 0);
+  opacity: calc(var(--t) * .9);
+}
+.letters__text {
+  --q: clamp(0, calc((var(--p) - .6) / .25), 1);
+  max-width: 30rem; margin: 3rem auto 0; padding: 0 var(--gutter); text-align: center;
+  font: italic 400 clamp(1.2rem, 4.4vw, 1.5rem)/1.5 var(--serif);
+  font-variant-numeric: lining-nums;
+  opacity: var(--q); transform: translate3d(0, calc((1 - var(--q)) * 20px), 0);
+}
+
+/* --- Computer: nomi su una riga, che passano dietro al pino a destra ---- */
+@media (min-width: 48rem) and (orientation: landscape) {
+  .depth__layer img { object-position: 50% 50%; }
+  .depth__names { top: 34%; padding: 0; text-align: center; font-size: clamp(4.5rem, 8.5vw, 9rem); }
+  .depth__names span { display: inline; }
+  .depth__names .amp { font-size: .6em; margin: 0 .25em; }
+  .depth__phrase { top: 22%; }
+  .depth__date { top: 56%; }
+}

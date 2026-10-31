@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Variante "pin + scrub": la pagina si blocca e l'animazione segue lo scorrimento.
+   pin-scrub.js imposta --p (da 0 a 1) su ogni scena; il resto è calcolato qui.
+   Senza la classe .scrub-on (JS spento o "riduci movimento") si vede lo stato finale.
+   ========================================================================== */
+
+/* --- Scena 1: apertura (l'arco si allarga fino a tutto schermo) --------- */
+.open { position: relative; background: var(--fondo); --p: 1; }
+.open__stage { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
+.scrub-on .open { height: 300vh; height: 300svh; --p: 0; }
+.scrub-on .open__stage { position: sticky; top: 0; }
+
+.open {
+  /* sotto-fasi dello scorrimento */
+  --e: clamp(0, calc(var(--p) / .62), 1);            /* l'arco si apre */
+  --f: clamp(0, calc((var(--p) - .58) / .3), 1);     /* compaiono i nomi */
+  --c: clamp(0, calc(1 - var(--p) / .2), 1);         /* sparisce l'invito a scorrere */
+  /* finestra ad arco iniziale (smartphone) */
+  --top: 25%; --side: 17%; --bottom: 25%;
+}
+
+/* biglietto d'invito sotto la foto */
+.open__card { position: absolute; inset: 0; color: var(--accento); text-align: center; }
+.open__phrase {
+  position: absolute; top: 0; left: 0; right: 0; height: var(--top);
+  display: grid; place-items: center; margin: 0; padding: 1.25rem var(--gutter) 0;
+  font: italic 400 clamp(1.5rem, 6vw, 2.1rem)/1.2 var(--serif);
+}
+.open__bottom {
+  position: absolute; left: 0; right: 0; bottom: 0; height: var(--bottom);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--gutter) 1rem;
+}
+.open__names-card { margin: 0; font: 400 clamp(2.3rem, 10vw, 3.6rem)/1.1 var(--script); }
+.open__date-card { margin: .4rem 0 0; font: 400 .72rem/1.6 var(--sans); letter-spacing: .34em; text-transform: uppercase; color: var(--testo); }
+
+/* la foto, ritagliata dall'arco */
+.open__window {
+  position: absolute; inset: 0; z-index: 1;
+  clip-path: inset(
+    calc(var(--top) * (1 - var(--e))) calc(var(--side) * (1 - var(--e)))
+    calc(var(--bottom) * (1 - var(--e))) calc(var(--side) * (1 - var(--e)))
+    round calc((1 - var(--e)) * 600px) calc((1 - var(--e)) * 600px) 0 0
+  );
+  will-change: clip-path;
+}
+.open__media, .open__media picture, .open__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.open__media img { object-fit: cover; object-position: center 60%; transform: scale(calc(1.22 - .22 * var(--e))); will-change: transform; }
+.open__veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(16, 38, 40, .3), rgba(16, 38, 40, .12) 45%, rgba(16, 38, 40, .5));
+  opacity: var(--f);
+}
+.open__hint {
+  position: absolute; left: 50%; bottom: calc(var(--bottom) + 1.25rem); z-index: 2;
+  transform: translateX(-50%); opacity: var(--c);
+  font: 500 .66rem/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: var(--chiaro);
+}
+.open__hint::after { content: ""; display: block; width: 1px; height: 1.75rem; margin: .6rem auto 0; background: currentColor; opacity: .7; }
+
+/* nomi finali sopra la foto */
+.open__final {
+  position: absolute; inset: 0; z-index: 2; display: grid; place-content: center;
+  padding: 0 var(--gutter); color: var(--chiaro); text-align: center;
+  opacity: var(--f); transform: translateY(calc((1 - var(--f)) * 24px));
+}
+.open__final .hero__names .amp { display: block; font-size: .5em; line-height: 1; margin: .1em 0; }
+.open__final .hero__names { margin: 0; font: 400 clamp(3.2rem, 14.5vw, 8.5rem)/1.1 var(--script); padding: 0 .15em; text-shadow: 0 2px 24px rgba(10, 30, 32, .35); }
+.open__final .hero__date { margin: 1.4rem 0 0; font: 400 .8rem/1.6 var(--sans); letter-spacing: .38em; text-transform: uppercase; }
+
+/* --- Scena 2: programma (le tappe si accendono una alla volta) ---------- */
+.day { position: relative; background: var(--fondo-alt); --p: 1; }
+.day__stage { padding: var(--section-y) 0; }
+.scrub-on .day__stage {
+  position: sticky; top: 0; min-height: 100vh; min-height: 100svh;
+  display: flex; align-items: center; padding: 3rem 0;
+}
+.scrub-on .day__stage > .container { width: 100%; }
+.day .timeline::after {
+  content: ""; position: absolute; left: var(--line-x); top: .5rem; bottom: .5rem; width: 1px;
+  background: var(--oro); transform-origin: top; transform: scaleY(var(--p));
+}
+.day .timeline__item { transition: opacity .5s var(--ease); }
+.scrub-on .day .timeline__item { opacity: .28; }
+.scrub-on .day .timeline__item.is-active { opacity: 1; }
+.day .timeline__item::before { z-index: 1; transition: background-color .5s var(--ease); }
+.day .timeline__item.is-active::before { background: var(--oro); }
+
+/* --- Tablet e computer --------------------------------------------------- */
+@media (min-width: 48rem) {
+  .open { --top: 17%; --side: 34%; --bottom: 21%; }
+}
+@media (min-width: 48rem) and (orientation: landscape) {
+  .open__media img { object-position: center 45%; }
+}

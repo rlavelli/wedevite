@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Variante "parallax a strati": ogni livello scorre a una velocità diversa.
+   parallax.js sposta gli elementi con data-speed (copertina) e data-depth (resto).
+   Senza la classe .px-on (JS spento o "riduci movimento") tutto resta fermo.
+   ========================================================================== */
+
+.px-on [data-speed], .px-on [data-depth] { will-change: transform; }
+
+/* --- Copertina: foto, testo e nebbia su piani diversi ------------------- */
+.hero__media { top: -8%; bottom: -8%; height: auto; }
+.mist { position: absolute; left: -10%; right: -10%; pointer-events: none; }
+.mist--back {
+  bottom: 8%; height: 45%;
+  background: radial-gradient(ellipse 60% 50% at 50% 70%, rgba(255, 253, 249, .22), transparent 70%);
+}
+.mist--front {
+  bottom: -30%; height: 55%;
+  background: linear-gradient(180deg, rgba(248, 245, 239, 0), rgba(248, 245, 239, .55) 40%, var(--fondo) 72%);
+}
+
+/* --- Foto del messaggio: la foto scorre dentro, la cornice per conto suo - */
+.intro__photo picture { display: block; overflow: hidden; }
+.intro__photo::before { transform: translate3d(0, var(--frame-y, 0px), 0); }
+
+/* --- Banda fotografica: due foto e i nomi su tre piani ------------------ */
+.moments { position: relative; overflow: hidden; padding: clamp(4rem, 12vw, 8rem) 0; background: var(--fondo); }
+.moments__stage { position: relative; max-width: 68rem; margin: 0 auto; padding: 0 var(--gutter); height: clamp(30rem, 120vw, 44rem); }
+.moments__names {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0; text-align: center; white-space: nowrap;
+  font: 400 clamp(2.6rem, 12.5vw, 10rem)/1 var(--script); color: var(--accento); opacity: .16;
+}
+.moments__wide, .moments__tall { position: absolute; margin: 0; overflow: hidden; box-shadow: 0 30px 60px -35px rgba(16, 38, 40, .55); }
+.moments__wide { left: var(--gutter); right: 18%; top: 22%; aspect-ratio: 4 / 3; }
+.moments__tall { right: var(--gutter); width: 46%; bottom: 0; aspect-ratio: 3 / 4; border: 6px solid var(--fondo-alt); }
+.moments__wide picture, .moments__tall picture { display: block; width: 100%; height: 100%; }
+.moments__wide img, .moments__tall img { width: 100%; height: 100%; object-fit: cover; }
+.moments__caption {
+  position: absolute; left: var(--gutter); bottom: 6%; margin: 0;
+  font: 500 .7rem/1.6 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--accento);
+}
+
+/* --- Conto alla rovescia: la foto di sfondo è un livello che scorre ----- */
+.section--countdown { overflow: hidden; }
+.px-layer { position: absolute; left: 0; right: 0; top: -15%; bottom: -15%; z-index: -2; }
+.px-layer picture, .px-layer img { display: block; width: 100%; height: 100%; }
+.px-layer img { object-fit: cover; }
+
+@media (min-width: 48rem) {
+  .moments__stage { height: clamp(34rem, 60vw, 46rem); }
+  .moments__wide { right: 30%; top: 24%; }
+  .moments__tall { width: 32%; }
+}

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F5F63">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Variante di prova: tutti i percorsi partono dalla radice del sito -->
+  <base href="../../">
+  <title>Variante sintesi · Luisa e Riccardo</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/pinyon-script-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="varianti/profondita/profondita.css">
+  <link rel="stylesheet" href="varianti/sintesi/sintesi.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="varianti/sintesi/#luoghi">Vai al contenuto</a>
+
+  <!-- Copertina della variante C: foto, nomi, cime dei pini davanti ai nomi -->
+  <header class="depth" id="hero" data-scene>
+    <div class="depth__stage">
+      <div class="depth__scene">
+        <div class="depth__layer" data-slot="hero-media"></div>
+        <h1 class="depth__names" data-slot="hero-names"></h1>
+        <div class="depth__layer" data-depth-front aria-hidden="true"></div>
+      </div>
+      <p class="depth__phrase" data-slot="hero-phrase"></p>
+      <p class="depth__date" data-slot="hero-date"></p>
+      <div class="depth__fade" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Quattro schede che si raddrizzano in 3D: luogo, programma, conferma, regalo.
+         I contenuti li mette main.js negli stessi slot del sito attuale. -->
+    <section class="tiles" data-scene="enter" aria-label="Le informazioni">
+      <div class="tiles__stage">
+      <div class="tiles__row">
+        <div class="tile" id="luoghi" data-rise>
+          <article class="tile__card">
+            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-1-480.webp"><img src="assets/img/lago-dettaglio-1-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="tile__body">
+              <h2 class="tile__title" id="places-title">Il luogo</h2>
+              <div class="places" data-slot="places"></div>
+            </div>
+          </article>
+        </div>
+        <div class="tile" id="programma" data-section="programma" data-rise>
+          <article class="tile__card">
+            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-2-480.webp"><img src="assets/img/lago-dettaglio-2-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="tile__body">
+              <h2 class="tile__title" data-slot="program-title"></h2>
+              <ol class="timeline" data-slot="timeline"></ol>
+            </div>
+          </article>
+        </div>
+        <div class="tile" id="rsvp" data-section="rsvp" data-rise>
+          <article class="tile__card">
+            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-3-480.webp"><img src="assets/img/lago-dettaglio-3-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="tile__body">
+              <h2 class="tile__title" data-slot="rsvp-title"></h2>
+              <p class="lead" data-slot="rsvp-deadline"></p>
+              <p class="tile__more" data-slot="rsvp-text"></p>
+              <div class="actions" data-slot="rsvp-actions"></div>
+            </div>
+          </article>
+        </div>
+        <div class="tile" id="regalo" data-section="regalo" data-rise>
+          <article class="tile__card">
+            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-4-480.webp"><img src="assets/img/lago-dettaglio-4-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="tile__body">
+              <h2 class="tile__title" data-slot="gift-title"></h2>
+              <p class="tile__more" data-slot="gift-text"></p>
+              <div class="iban-card">
+                <dl>
+                  <dt>Intestatari</dt><dd data-slot="gift-holder"></dd>
+                  <dt>IBAN</dt><dd class="iban" data-slot="gift-iban"></dd>
+                  <dt>Causale</dt><dd data-slot="gift-reason"></dd>
+                </dl>
+                <button class="btn" type="button" data-action="copy-iban">Copia IBAN</button>
+                <p class="iban-card__feedback" role="status" aria-live="polite" data-slot="gift-feedback"></p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <!-- Data, ora e luogo in evidenza: riempito da sintesi.js -->
+      <p class="tiles__when" data-rise><span></span></p>
+      </div>
+    </section>
+
+    <section class="section section--countdown" id="countdown" aria-labelledby="countdown-title">
+      <div class="container center">
+        <p class="eyebrow" data-reveal data-slot="countdown-date"></p>
+        <h2 class="title" id="countdown-title" data-slot="countdown-title" data-reveal></h2>
+        <div class="countdown" data-slot="countdown" data-reveal></div>
+        <div class="actions" data-reveal>
+          <button class="btn" type="button" data-action="ics">Aggiungi al calendario</button>
+          <a class="btn btn--ghost" data-slot="gcal" target="_blank" rel="noopener">Google Calendar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- main.js riempie anche questi slot: in questa variante non si mostrano -->
+    <div hidden>
+      <h2 data-slot="intro-title"></h2><div data-slot="intro-text"></div>
+      <p data-slot="intro-signature"></p><figure data-slot="intro-photo"></figure>
+      <section data-section="info"><h2 data-slot="info-title"></h2><div data-slot="info"></div></section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container center">
+      <p class="footer__monogram" data-slot="footer-initials" data-reveal></p>
+      <p class="footer__names" data-slot="footer-names" data-reveal></p>
+      <p class="footer__date" data-slot="footer-date" data-reveal></p>
+      <p class="footer__thanks" data-slot="footer-thanks" data-reveal></p>
+      <div class="actions" data-reveal>
+        <a class="btn btn--light" data-slot="share" target="_blank" rel="noopener">Condividi su WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
+
+  <script src="config.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="varianti/profondita/profondita.js"></script>
+  <script src="varianti/sintesi/sintesi.js"></script>
+</body>
+</html>
