@@ -1,0 +1,14 @@
+# Foto originali e invito cartaceo: restano solo sul computer (pesanti e personali).
+# Nel sito vanno solo le versioni ottimizzate in assets/img/.
+stats/
+
+# Impostazioni locali
+.claude/settings.local.json
+.vscode/
+
+# Python e sistema
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini

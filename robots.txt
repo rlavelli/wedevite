@@ -1,0 +1,3 @@
+# Invito privato: chiediamo ai motori di ricerca di non indicizzarlo.
+User-agent: *
+Disallow: /

@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Stile del sito. I colori arrivano da config.js (tema) e sovrascrivono
+   i valori qui sotto; i valori qui servono solo se config.js manca.
+   ========================================================================== */
+
+/* --- Font (ospitati nel sito, nessuna chiamata esterna) ------------------ */
+@font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/cormorant-garamond-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: normal; font-display: swap; src: url("../fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: italic; font-display: swap; src: url("../fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-weight: 300; font-style: normal; font-display: swap; src: url("../fonts/jost-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/jost-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Jost"; font-weight: 500; font-style: normal; font-display: swap; src: url("../fonts/jost-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Pinyon Script"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/pinyon-script-latin-400-normal.woff2") format("woff2"); }
+
+:root {
+  --fondo: #F8F5EF;
+  --fondo-alt: #FFFDF9;
+  --accento: #1F5F63;
+  --salvia: #9AAE9C;
+  --oro: #B89B5E;
+  --testo: #4A4A48;
+  --chiaro: #FFFDF9;
+
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --script: "Pinyon Script", "Cormorant Garamond", cursive;
+
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --section-y: clamp(5rem, 14vw, 9rem);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* --- Base --------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--testo);
+  font: 300 1.0625rem/1.75 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "lnum" 1; /* Cormorant di base usa numeri "all'antica" (lo 0 sembra una o) */
+}
+img { display: block; max-width: 100%; height: auto; }
+p { margin: 0 0 1em; }
+a { color: var(--accento); }
+:focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 10;
+  padding: .6rem 1rem; background: var(--fondo-alt); color: var(--accento);
+}
+.skip-link:focus { top: 1rem; }
+
+.container { width: 100%; max-width: 68rem; margin: 0 auto; padding: 0 var(--gutter); }
+.narrow { max-width: 40rem; }
+.center { text-align: center; }
+
+.section { padding: var(--section-y) 0; }
+.section--intro, .section--places, .section--info, .section--gift { background: var(--fondo); }
+.section--program, .section--rsvp { background: var(--fondo-alt); }
+
+/* --- Tipografia ------------------------------------------------------- */
+.eyebrow {
+  margin: 0 0 .9rem;
+  font: 500 .72rem/1.4 var(--sans);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--accento);
+  opacity: .8;
+}
+.title {
+  margin: 0 0 1.5rem;
+  font: 400 clamp(2.3rem, 8vw, 3.6rem)/1.08 var(--serif);
+  color: var(--accento);
+  letter-spacing: -.005em;
+}
+.lead { font: italic 400 clamp(1.3rem, 4.4vw, 1.6rem)/1.45 var(--serif); color: var(--testo); }
+.prose p { max-width: 34rem; }
+.signature { margin-top: 1.5rem; font: 400 2.2rem/1 var(--script); color: var(--accento); }
+
+.ornament {
+  position: relative; width: 7rem; height: 1px; margin: 0 0 2rem;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+}
+.ornament::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 7px; height: 7px; border: 1px solid var(--oro); background: var(--fondo);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.center .ornament { margin-left: auto; margin-right: auto; }
+.section--rsvp .ornament::after { background: var(--fondo-alt); }
+
+/* --- Pulsanti --------------------------------------------------------- */
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 2.25rem; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 3rem; padding: .85rem 1.6rem;
+  border: 1px solid var(--accento); border-radius: 0;
+  background: var(--accento); color: var(--chiaro);
+  font: 500 .74rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  transition: background-color .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover { background: transparent; color: var(--accento); }
+.btn--ghost { background: transparent; color: var(--accento); }
+.btn--ghost:hover { background: var(--accento); color: var(--chiaro); }
+.btn--light { background: transparent; border-color: rgba(255, 253, 249, .6); color: var(--chiaro); }
+.btn--light:hover { background: var(--chiaro); color: var(--accento); }
+.btn svg { width: 1.1em; height: 1.1em; flex: none; }
+
+/* --- Copertina -------------------------------------------------------- */
+.hero {
+  position: relative; display: grid; place-items: center;
+  min-height: 100vh; min-height: 100svh;
+  overflow: hidden; color: var(--chiaro); text-align: center;
+  background: var(--accento);
+}
+.hero__media, .hero__media picture, .hero__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero__media img { object-fit: cover; object-position: center 60%; }
+.js .hero__media img { animation: hero-zoom 14s var(--ease) both; }
+.hero__veil {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(16, 38, 40, .28) 0%, rgba(16, 38, 40, 0) 70%),
+    linear-gradient(180deg, rgba(16, 38, 40, .2) 0%, rgba(16, 38, 40, .05) 45%, rgba(16, 38, 40, .45) 100%);
+}
+.hero__content { position: relative; padding: 0 var(--gutter); }
+.hero__phrase {
+  margin: 0 0 .5rem;
+  font: italic 400 clamp(1.35rem, 5vw, 1.9rem)/1.2 var(--serif);
+  letter-spacing: .04em;
+}
+.hero__names {
+  margin: 0;
+  font: 400 clamp(3.2rem, 14.5vw, 8.5rem)/1.1 var(--script);
+  padding: 0 .15em; /* spazio per gli svolazzi del corsivo */
+  text-shadow: 0 2px 24px rgba(10, 30, 32, .35);
+}
+.hero__names .amp { display: block; font-size: .5em; line-height: 1; margin: .1em 0; }
+.hero__date {
+  margin: 1.6rem 0 0;
+  font: 400 .8rem/1.6 var(--sans); letter-spacing: .38em; text-transform: uppercase;
+}
+.hero__date::before, .hero__date::after {
+  content: ""; display: inline-block; width: 1.75rem; height: 1px; margin: 0 .9rem;
+  background: currentColor; opacity: .6; vertical-align: middle;
+}
+.hero__scroll {
+  position: absolute; left: 50%; bottom: calc(1.75rem + env(safe-area-inset-bottom));
+  width: 2.75rem; height: 4.5rem; transform: translateX(-50%);
+  display: flex; justify-content: center;
+}
+.hero__scroll-line { position: relative; width: 1px; height: 100%; background: rgba(255, 253, 249, .35); overflow: hidden; }
+.hero__scroll-line::after {
+  content: ""; position: absolute; left: 0; top: -40%; width: 1px; height: 40%;
+  background: var(--chiaro); animation: scroll-hint 2.2s var(--ease) infinite;
+}
+
+/* Comparsa iniziale della copertina */
+.js .hero__content > * { opacity: 0; transform: translateY(14px); animation: rise 1.4s var(--ease) forwards; }
+.js .hero__phrase { animation-delay: .3s; }
+.js .hero__names  { animation-delay: .55s; }
+.js .hero__date   { animation-delay: .9s; }
+
+@keyframes hero-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+@keyframes rise { to { opacity: 1; transform: none; } }
+@keyframes scroll-hint { 0% { top: -40%; } 100% { top: 100%; } }
+
+/* --- Il nostro matrimonio --------------------------------------------- */
+.intro { display: grid; gap: 3.5rem; align-items: center; }
+.intro__photo { position: relative; margin: 0 1rem 0 0; }
+.intro__photo::before {
+  content: ""; position: absolute; inset: 1rem -1rem -1rem 1rem;
+  border: 1px solid var(--oro); opacity: .7; pointer-events: none;
+}
+.intro__photo img { position: relative; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+
+/* --- Conto alla rovescia ---------------------------------------------- */
+.section--countdown {
+  position: relative; color: var(--chiaro);
+  background: var(--accento) var(--countdown-bg, none) center 55% / cover no-repeat;
+  isolation: isolate;
+}
+.section--countdown::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(16, 38, 40, .62), rgba(16, 38, 40, .48));
+}
+.section--countdown .eyebrow, .section--countdown .title { color: var(--chiaro); opacity: 1; }
+.countdown {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
+  max-width: 34rem; margin: 2.5rem auto 0;
+}
+.countdown__unit { padding: 1rem 0; border-top: 1px solid rgba(255, 253, 249, .35); }
+.countdown__value {
+  display: block;
+  font: 400 clamp(2.4rem, 11vw, 3.75rem)/1 var(--serif);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.countdown__label {
+  display: block; margin-top: .6rem;
+  font: 400 .64rem/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; opacity: .85;
+}
+.countdown__done { margin: 2rem auto 0; max-width: 30rem; font: italic 400 1.6rem/1.4 var(--serif); }
+.section--countdown .btn { background: var(--chiaro); border-color: var(--chiaro); color: var(--accento); }
+.section--countdown .btn:hover { background: transparent; color: var(--chiaro); }
+.section--countdown .btn--ghost { background: transparent; color: var(--chiaro); border-color: rgba(255, 253, 249, .6); }
+.section--countdown .btn--ghost:hover { background: var(--chiaro); color: var(--accento); }
+
+/* --- Luoghi ----------------------------------------------------------- */
+.places { display: grid; gap: 2.5rem; margin-top: 2.5rem; }
+.places--single { max-width: 36rem; margin-left: auto; margin-right: auto; }
+.place { background: var(--fondo-alt); text-align: center; box-shadow: 0 1px 0 rgba(74, 74, 72, .06), 0 24px 48px -32px rgba(31, 95, 99, .35); }
+.place__photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.place__body { padding: 2.75rem 1.5rem 3rem; border-top: 3px solid var(--salvia); }
+.place__name { margin: 0 0 .75rem; font: italic 400 clamp(1.9rem, 6.5vw, 2.4rem)/1.15 var(--serif); color: var(--accento); }
+.place__address { margin: 0 0 1.75rem; }
+.place__times { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem 2.5rem; margin: 0 0 .5rem; padding: 0; list-style: none; }
+.place__times li { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.place__time { font: 400 1.9rem/1 var(--serif); color: var(--accento); }
+.place__what { font: 400 .68rem/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; }
+.place .actions { margin-top: 2rem; }
+
+/* --- Programma -------------------------------------------------------- */
+.timeline { position: relative; margin: 3rem 0 0; padding: 0; list-style: none; }
+.timeline { --time-col: 4.4rem; --line-x: calc(var(--time-col) + 1.25rem); }
+.timeline::before {
+  content: ""; position: absolute; left: var(--line-x); top: .5rem; bottom: .5rem; width: 1px;
+  background: linear-gradient(180deg, transparent, var(--salvia) 8%, var(--salvia) 92%, transparent);
+}
+.timeline__item { position: relative; display: grid; grid-template-columns: var(--time-col) 1fr; gap: 0 2.5rem; padding: 0 0 2.75rem; }
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__item::before {
+  content: ""; position: absolute; left: var(--line-x); top: .85rem;
+  width: 9px; height: 9px; border: 1px solid var(--oro); background: var(--fondo-alt);
+  transform: translate(-50%, 0) rotate(45deg);
+}
+.timeline__time { font: 400 1.75rem/1.2 var(--serif); color: var(--accento); text-align: right; }
+.timeline__title { margin: .15rem 0 .2rem; font: 500 .8rem/1.6 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--accento); }
+.timeline__text { margin: 0; }
+
+/* --- Informazioni utili ----------------------------------------------- */
+.info-grid { display: grid; gap: 2.5rem; margin-top: 3rem; }
+.info-item { padding-top: 1.75rem; border-top: 1px solid rgba(154, 174, 156, .6); }
+.info-item svg { width: 2rem; height: 2rem; margin-bottom: 1rem; color: var(--salvia); }
+.info-item h3 { margin: 0 0 .5rem; font: 400 1.6rem/1.2 var(--serif); color: var(--accento); }
+.info-item p { margin: 0; }
+
+/* --- Conferma (RSVP) -------------------------------------------------- */
+.rsvp-deadline { display: block; font-style: normal; color: var(--accento); }
+
+/* --- Regalo ----------------------------------------------------------- */
+.iban-card {
+  margin: 2.5rem auto 0; padding: 2.25rem 1rem;
+  background: var(--fondo-alt); border: 1px solid rgba(184, 155, 94, .55);
+}
+.iban-card dl { margin: 0 0 1.75rem; }
+.iban-card dt { margin-top: 1rem; font: 500 .66rem/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; opacity: .75; }
+.iban-card dt:first-child { margin-top: 0; }
+.iban-card dd { margin: .4rem 0 0; }
+.iban { font: 400 clamp(.8rem, 3.6vw, 1.15rem)/1.5 var(--sans); color: var(--accento); letter-spacing: .04em; word-spacing: .12em; white-space: nowrap; font-variant-numeric: tabular-nums; user-select: all; -webkit-user-select: all; }
+.iban-card__feedback { min-height: 1.5em; margin: 1rem 0 0; font-size: .9rem; color: var(--accento); }
+
+/* --- Piè di pagina ---------------------------------------------------- */
+.footer { padding: var(--section-y) 0 calc(4rem + env(safe-area-inset-bottom)); background: var(--accento); color: var(--chiaro); }
+.footer__monogram {
+  display: inline-grid; place-items: center; width: 4.5rem; height: 4.5rem; margin: 0 0 1.75rem;
+  border: 1px solid rgba(184, 155, 94, .8); border-radius: 50%;
+  font: italic 400 1.5rem/1 var(--serif);
+}
+.footer__names { margin: 0; font: 400 clamp(2.6rem, 11vw, 4rem)/1.1 var(--script); }
+.footer__date { margin: .75rem 0 1.5rem; font: 400 .75rem/1.6 var(--sans); letter-spacing: .34em; text-transform: uppercase; opacity: .85; }
+.footer__thanks { margin: 0 auto; max-width: 26rem; font: italic 400 1.3rem/1.5 var(--serif); }
+
+.noscript { padding: 2rem; text-align: center; }
+
+/* --- Comparsa allo scorrimento (scroll reveal) ------------------------- */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* --- Tablet e computer ------------------------------------------------ */
+@media (min-width: 48rem) {
+  body { font-size: 1.125rem; }
+  .intro { grid-template-columns: 1.1fr .9fr; gap: 5rem; }
+  .places:not(.places--single) { grid-template-columns: 1fr 1fr; }
+  .place__body { padding: 3.25rem 2.5rem 3.5rem; }
+  .info-grid { grid-template-columns: 1fr 1fr; gap: 3rem 4rem; }
+  .countdown { gap: 1.5rem; }
+  .iban-card { padding: 2.75rem 3rem; }
+}
+@media (min-width: 48rem) and (orientation: landscape) {
+  .hero__media img { object-position: center 45%; }
+}
+
+/* --- Movimento ridotto ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js [data-reveal], .js .hero__content > * { opacity: 1; transform: none; }
+  .hero__scroll-line::after { top: 30%; }
+}

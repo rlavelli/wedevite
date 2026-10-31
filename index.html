@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F5F63">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- =====================================================================
+       ANTEPRIMA SU WHATSAPP (Open Graph)
+       WhatsApp non legge config.js: titolo, descrizione e immagine vanno scritti qui.
+       Se in futuro userai un dominio tuo, cambia l'indirizzo in og:url e og:image.
+       ===================================================================== -->
+  <title>Luisa e Riccardo · 11 giugno 2027</title>
+  <meta name="description" content="Ci sposiamo! Venerdì 11 giugno 2027, Trattoria Il Portico, Monticello Brianza.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Luisa e Riccardo · Ci sposiamo!">
+  <meta property="og:description" content="Venerdì 11 giugno 2027 · Trattoria Il Portico, Monticello Brianza">
+  <meta property="og:url" content="https://rlavelli.github.io/wedevite/">
+  <meta property="og:image" content="https://rlavelli.github.io/wedevite/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="it_IT">
+  <!-- ===================================================================== -->
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/pinyon-script-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#intro">Vai al contenuto</a>
+
+  <header class="hero" id="hero">
+    <div class="hero__media" data-slot="hero-media"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+    <div class="hero__content">
+      <p class="hero__phrase" data-slot="hero-phrase"></p>
+      <h1 class="hero__names" data-slot="hero-names"></h1>
+      <p class="hero__date" data-slot="hero-date"></p>
+    </div>
+    <a class="hero__scroll" href="#intro" aria-label="Scorri verso il basso">
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+  </header>
+
+  <main>
+    <section class="section section--intro" id="intro" aria-labelledby="intro-title">
+      <div class="container intro">
+        <div class="intro__text">
+          <p class="eyebrow" data-reveal>Cari amici e parenti</p>
+          <h2 class="title" id="intro-title" data-slot="intro-title" data-reveal></h2>
+          <div class="ornament" aria-hidden="true" data-reveal></div>
+          <div class="prose" data-slot="intro-text"></div>
+          <p class="signature" data-slot="intro-signature" data-reveal></p>
+        </div>
+        <figure class="intro__photo" data-slot="intro-photo" data-reveal></figure>
+      </div>
+    </section>
+
+    <section class="section section--countdown" id="countdown" aria-labelledby="countdown-title">
+      <div class="container center">
+        <p class="eyebrow" data-reveal data-slot="countdown-date"></p>
+        <h2 class="title" id="countdown-title" data-slot="countdown-title" data-reveal></h2>
+        <div class="countdown" data-slot="countdown" data-reveal></div>
+        <div class="actions" data-reveal>
+          <button class="btn" type="button" data-action="ics">Aggiungi al calendario</button>
+          <a class="btn btn--ghost" data-slot="gcal" target="_blank" rel="noopener">Google Calendar</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--places" id="luoghi" aria-labelledby="places-title">
+      <div class="container">
+        <p class="eyebrow center" data-reveal>Dove</p>
+        <h2 class="title center" id="places-title" data-reveal>Il luogo</h2>
+        <div class="places" data-slot="places"></div>
+      </div>
+    </section>
+
+    <section class="section section--program" id="programma" aria-labelledby="program-title" data-section="programma">
+      <div class="container narrow">
+        <p class="eyebrow center" data-reveal>La giornata</p>
+        <h2 class="title center" id="program-title" data-slot="program-title" data-reveal></h2>
+        <ol class="timeline" data-slot="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="section section--info" id="info" aria-labelledby="info-title" data-section="info">
+      <div class="container">
+        <p class="eyebrow center" data-reveal>Da sapere</p>
+        <h2 class="title center" id="info-title" data-slot="info-title" data-reveal></h2>
+        <div class="info-grid" data-slot="info"></div>
+      </div>
+    </section>
+
+    <section class="section section--rsvp" id="rsvp" aria-labelledby="rsvp-title" data-section="rsvp">
+      <div class="container narrow center">
+        <p class="eyebrow" data-reveal>Conferma</p>
+        <h2 class="title" id="rsvp-title" data-slot="rsvp-title" data-reveal></h2>
+        <div class="ornament" aria-hidden="true" data-reveal></div>
+        <p class="lead" data-slot="rsvp-deadline" data-reveal></p>
+        <p data-slot="rsvp-text" data-reveal></p>
+        <div class="actions" data-slot="rsvp-actions" data-reveal></div>
+      </div>
+    </section>
+
+    <section class="section section--gift" id="regalo" aria-labelledby="gift-title" data-section="regalo">
+      <div class="container narrow center">
+        <p class="eyebrow" data-reveal>Regalo</p>
+        <h2 class="title" id="gift-title" data-slot="gift-title" data-reveal></h2>
+        <p class="lead" data-slot="gift-text" data-reveal></p>
+        <div class="iban-card" data-reveal>
+          <dl>
+            <dt>Intestatari</dt><dd data-slot="gift-holder"></dd>
+            <dt>IBAN</dt><dd class="iban" data-slot="gift-iban"></dd>
+            <dt>Causale</dt><dd data-slot="gift-reason"></dd>
+          </dl>
+          <button class="btn" type="button" data-action="copy-iban">Copia IBAN</button>
+          <p class="iban-card__feedback" role="status" aria-live="polite" data-slot="gift-feedback"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container center">
+      <p class="footer__monogram" data-slot="footer-initials" data-reveal></p>
+      <p class="footer__names" data-slot="footer-names" data-reveal></p>
+      <p class="footer__date" data-slot="footer-date" data-reveal></p>
+      <p class="footer__thanks" data-slot="footer-thanks" data-reveal></p>
+      <div class="actions" data-reveal>
+        <a class="btn btn--light" data-slot="share" target="_blank" rel="noopener">Condividi su WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
+
+  <script src="config.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
