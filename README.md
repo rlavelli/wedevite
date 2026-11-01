@@ -8,7 +8,7 @@ e si pubblica gratis su **GitHub Pages**.
 
 | File / cartella | A cosa serve |
 |---|---|
-| `config.js` | **L'unico file da modificare**: nomi, data, testi, luoghi, programma, informazioni, conferma, regalo, colori |
+| `config.js` | **L'unico file da modificare**: nomi, data, testi, luoghi, programma, informazioni, conferma, regalo, colori (l'IBAN no: vedi *IBAN protetto*) |
 | `index.html` | Struttura della pagina. Da toccare solo per l'anteprima su WhatsApp (vedi sotto) |
 | `assets/css/style.css` | Grafica |
 | `assets/js/main.js` | Costruisce la pagina da `config.js`; conto alla rovescia, calendario, condivisione |
@@ -72,15 +72,36 @@ Non c'è un modulo online: il pulsante apre WhatsApp con un messaggio già impos
 con il prefisso internazionale e solo cifre, es. `"393331234567"`. Con il numero vuoto
 l'invitato sceglie da WhatsApp a chi mandarlo.
 
+### IBAN protetto (link con la chiave)
+
+Il repository è pubblico, quindi l'IBAN **non si scrive in chiaro** in `config.js`: lo si cifra con uno script
+e lo vede solo chi apre il sito dal **link con la chiave** (la parte dopo `#`, che non arriva mai a GitHub).
+Chi apre l'indirizzo senza chiave non vede la sezione del regalo e non sa che esiste.
+
+1. Dalla cartella del progetto, in un terminale: `node tools/cifra-iban.mjs`
+2. Scrivi l'IBAN (anche con gli spazi). Lo script controlla che sia valido, lo cifra in `config.js` → `regalo.ibanCifrato`
+   e stampa il link da mandare, per esempio `https://rlavelli.github.io/wedevite/#Xq7pL2vR9mT4wZ8nB3cF6h`.
+3. Pubblica come al solito (vedi *Aggiornare il sito*) e manda **quel** link agli invitati.
+
+Da sapere:
+
+- La chiave è salvata in `privato/chiave-iban.txt`, **esclusa da git**: tienine una copia (senza, per cambiare l'IBAN
+  serve una chiave nuova e i link già mandati smettono di mostrarlo).
+- Rilanciare lo script riusa la stessa chiave: si può cambiare l'IBAN senza rimandare i link.
+  `node tools/cifra-iban.mjs --nuova-chiave` crea una chiave nuova (da usare se il link è finito dove non doveva).
+- Chi apre il link una volta lo ritrova anche riaprendo il sito senza chiave, nello stesso browser.
+  Il pulsante *Condividi su WhatsApp* condivide l'indirizzo **senza** chiave.
+- Chi ha il link può inoltrarlo: la protezione vale contro chi trova il sito per caso, non contro chi lo riceve da un invitato.
+
 ### Colori
 
 In `config.js` → `tema`. Il grigio del testo resta scuro ma mai nero, per un aspetto morbido.
 
 ## Pubblicare su GitHub Pages
 
-GitHub Pages è gratuito per i repository **pubblici**: il codice del sito (testi, indirizzi, IBAN)
+GitHub Pages è gratuito per i repository **pubblici**: il codice del sito (testi, indirizzi, programma)
 sarà leggibile da chi trova il repository. La pagina chiede ai motori di ricerca di non indicizzarla,
-ma non è protetta da password.
+ma non è protetta da password. Fa eccezione l'IBAN, che è cifrato (vedi *IBAN protetto*).
 
 ### 1. Creare l'account GitHub
 Vai su <https://github.com/signup>, scegli un nome utente (finirà nel link: `nomeutente.github.io`) e conferma l'email.

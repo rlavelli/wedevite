@@ -1,55 +1,55 @@
 /* ==========================================================================
-   Variante "sintesi". Va caricato dopo main.js e profondita.js (copertina della C).
-   Scrive la riga con data, ora e luogo e sceglie come far salire le schede:
-   - se stanno in uno schermo: classe .tiles-pin, la sezione resta ferma come nella C
-     (--p lo calcola profondita.js, la sezione ha data-scene="enter");
-   - altrimenti --t (0 → 1) su ogni [data-rise] mentre scorre con la pagina.
+   Variante "sintesi". Va caricato dopo main.js e profondita.js (che fa tutto l'effetto della C).
+   - Toccando una delle quattro foto, sotto compaiono i suoi dettagli (schede accessibili).
+   - Se foto e dettagli non stanno in uno schermo, la sezione non si ferma (classe .info-free).
    ========================================================================== */
 (function () {
   'use strict';
 
-  var C = window.WEDDING;
-  if (!C) return;
+  var tabs = function () { return Array.prototype.slice.call(document.querySelectorAll('.letters--info [role="tab"]')); };
 
-  var when = document.querySelector('.tiles__when span');
-  var date = document.querySelector('[data-slot="countdown-date"]');
-  if (when && date) when.textContent = date.textContent + (C.luoghi[0] ? ' · ' + C.luoghi[0].nome : '');
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var root = document.documentElement;
-  var row = document.querySelector('.tiles__row');
-  var line = document.querySelector('.tiles__when');
-  var items = Array.prototype.slice.call(document.querySelectorAll('[data-rise]'));
-
-  // Le schede stanno in uno schermo? (altezza senza trasformazioni + margini del modo fermo)
-  function choose() {
-    var need = row.offsetHeight + line.offsetHeight + 32 + 32;
-    var pin = need <= window.innerHeight;
-    if (pin === root.classList.contains('tiles-pin')) return;
-    root.classList.toggle('tiles-pin', pin);
-    // nel modo fermo --t lo calcola il CSS: niente valori scritti sugli elementi
-    if (pin) items.forEach(function (node) { node.style.removeProperty('--t'); });
-    window.dispatchEvent(new Event('scroll'));   // profondita.js ricalcola --p
-  }
-
-  // Si misura l'elemento esterno, che non si muove: la scheda dentro è quella spostata dal CSS
-  var ticking = false;
-  function update() {
-    ticking = false;
-    if (root.classList.contains('tiles-pin')) return;
-    var vh = window.innerHeight;
-    items.forEach(function (node) {
-      var t = (vh - node.getBoundingClientRect().top) / (vh * 0.6);
-      node.style.setProperty('--t', Math.min(1, Math.max(0, t)).toFixed(4));
+  function select(tab) {
+    tabs().forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.classList.toggle('is-active', on);
     });
   }
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+
+  var row = document.querySelector('.letters--info [role="tablist"]');
+  if (!row) return;
+  row.addEventListener('click', function (e) {
+    var tab = e.target.closest('[role="tab"]');
+    if (tab) select(tab);
+  });
+  // frecce sinistra/destra tra le foto, come in ogni gruppo di schede
+  row.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var list = tabs();
+    var i = list.indexOf(document.activeElement);
+    if (i < 0) return;
+    var next = list[(i + (e.key === 'ArrowRight' ? 1 : list.length - 1)) % list.length];
+    select(next);
+    next.focus();
+    e.preventDefault();
+  });
+  select(tabs()[0]);
+
+  // Tutto in uno schermo? Altezza dei contenuti senza trasformazioni, più lo sfalsamento delle foto
+  var root = document.documentElement;
+  var stage = document.querySelector('.letters--info .letters__stage');
+  function choose() {
+    var need = Array.prototype.reduce.call(stage.children, function (h, child) {
+      return h + child.offsetHeight + parseFloat(getComputedStyle(child).marginTop);
+    }, 40 + 48);
+    var free = need > window.innerHeight;
+    if (free === root.classList.contains('info-free')) return;
+    root.classList.toggle('info-free', free);
+    window.dispatchEvent(new Event('scroll'));   // profondita.js ricalcola --p
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function () { choose(); onScroll(); });
-  window.addEventListener('load', choose);   // i font possono cambiare l'altezza delle schede
+  window.addEventListener('resize', choose);
+  window.addEventListener('load', choose);         // i font possono cambiare le altezze
   choose();
-  update();
 })();

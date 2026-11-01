@@ -18,13 +18,12 @@
 <body>
   <a class="skip-link" href="varianti/sintesi/#luoghi">Vai al contenuto</a>
 
-  <!-- Copertina della variante C: foto, nomi, cime dei pini davanti ai nomi -->
+  <!-- Copertina della variante C: foto e nomi, che si ingrandisce e sfuma scorrendo -->
   <header class="depth" id="hero" data-scene>
     <div class="depth__stage">
       <div class="depth__scene">
         <div class="depth__layer" data-slot="hero-media"></div>
         <h1 class="depth__names" data-slot="hero-names"></h1>
-        <div class="depth__layer" data-depth-front aria-hidden="true"></div>
       </div>
       <p class="depth__phrase" data-slot="hero-phrase"></p>
       <p class="depth__date" data-slot="hero-date"></p>
@@ -32,65 +31,50 @@
     </div>
   </header>
 
-  <main>
-    <!-- Quattro schede che si raddrizzano in 3D: luogo, programma, conferma, regalo.
-         I contenuti li mette main.js negli stessi slot del sito attuale. -->
-    <section class="tiles" data-scene="enter" aria-label="Le informazioni">
-      <div class="tiles__stage">
-      <div class="tiles__row">
-        <div class="tile" id="luoghi" data-rise>
-          <article class="tile__card">
-            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-1-480.webp"><img src="assets/img/lago-dettaglio-1-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-            <div class="tile__body">
-              <h2 class="tile__title" id="places-title">Il luogo</h2>
-              <div class="places" data-slot="places"></div>
-            </div>
-          </article>
-        </div>
-        <div class="tile" id="programma" data-section="programma" data-rise>
-          <article class="tile__card">
-            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-2-480.webp"><img src="assets/img/lago-dettaglio-2-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-            <div class="tile__body">
-              <h2 class="tile__title" data-slot="program-title"></h2>
-              <ol class="timeline" data-slot="timeline"></ol>
-            </div>
-          </article>
-        </div>
-        <div class="tile" id="rsvp" data-section="rsvp" data-rise>
-          <article class="tile__card">
-            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-3-480.webp"><img src="assets/img/lago-dettaglio-3-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-            <div class="tile__body">
-              <h2 class="tile__title" data-slot="rsvp-title"></h2>
-              <p class="lead" data-slot="rsvp-deadline"></p>
-              <p class="tile__more" data-slot="rsvp-text"></p>
-              <div class="actions" data-slot="rsvp-actions"></div>
-            </div>
-          </article>
-        </div>
-        <div class="tile" id="regalo" data-section="regalo" data-rise>
-          <article class="tile__card">
-            <div class="tile__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-4-480.webp"><img src="assets/img/lago-dettaglio-4-480.jpg" alt="" loading="lazy" decoding="async"></picture></div>
-            <div class="tile__body">
-              <h2 class="tile__title" data-slot="gift-title"></h2>
-              <p class="tile__more" data-slot="gift-text"></p>
-              <div class="iban-card">
-                <dl>
-                  <dt>Intestatari</dt><dd data-slot="gift-holder"></dd>
-                  <dt>IBAN</dt><dd class="iban" data-slot="gift-iban"></dd>
-                  <dt>Causale</dt><dd data-slot="gift-reason"></dd>
-                </dl>
-                <button class="btn" type="button" data-action="copy-iban">Copia IBAN</button>
-                <p class="iban-card__feedback" role="status" aria-live="polite" data-slot="gift-feedback"></p>
-              </div>
-            </div>
-          </article>
-        </div>
+  <!-- Le quattro foto della C (stesso CSS e JS): al posto delle cifre luogo, programma,
+       conferma e regalo; toccandone una, i dettagli compaiono sotto (sintesi.js).
+       I contenuti li mette main.js negli stessi slot del sito attuale. -->
+  <section class="letters letters--info" id="luoghi" data-scene="enter" aria-label="Le informazioni">
+    <div class="letters__stage">
+      <div class="letters__row" role="tablist" aria-label="Informazioni">
+        <button class="letters__item" type="button" role="tab" id="tab-luogo" aria-controls="info-luogo" aria-selected="true"><span class="letters__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-1-480.webp"><img src="assets/img/lago-dettaglio-1-480.jpg" alt="" loading="lazy" decoding="async"></picture></span><span class="letters__char" id="places-title">Il luogo</span></button>
+        <button class="letters__item" type="button" role="tab" id="tab-programma" aria-controls="info-programma" aria-selected="false" data-section="programma"><span class="letters__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-2-480.webp"><img src="assets/img/lago-dettaglio-2-480.jpg" alt="" loading="lazy" decoding="async"></picture></span><span class="letters__char" data-slot="program-title"></span></button>
+        <button class="letters__item" type="button" role="tab" id="tab-rsvp" aria-controls="info-rsvp" aria-selected="false" data-section="rsvp"><span class="letters__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-3-480.webp"><img src="assets/img/lago-dettaglio-3-480.jpg" alt="" loading="lazy" decoding="async"></picture></span><span class="letters__char" data-slot="rsvp-title"></span></button>
+        <button class="letters__item" type="button" role="tab" id="tab-regalo" aria-controls="info-regalo" aria-selected="false" data-section="regalo"><span class="letters__photo"><picture><source type="image/webp" srcset="assets/img/lago-dettaglio-4-480.webp"><img src="assets/img/lago-dettaglio-4-480.jpg" alt="" loading="lazy" decoding="async"></picture></span><span class="letters__char" data-slot="gift-title"></span></button>
       </div>
-      <!-- Data, ora e luogo in evidenza: riempito da sintesi.js -->
-      <p class="tiles__when" data-rise><span></span></p>
-      </div>
-    </section>
 
+      <div class="info-panels">
+        <div class="info-panel is-active" id="info-luogo" role="tabpanel" aria-labelledby="tab-luogo">
+          <div class="places" data-slot="places"></div>
+        </div>
+        <div class="info-panel" id="info-programma" role="tabpanel" aria-labelledby="tab-programma" data-section="programma">
+          <ol class="timeline" data-slot="timeline"></ol>
+        </div>
+        <div class="info-panel" id="info-rsvp" role="tabpanel" aria-labelledby="tab-rsvp" data-section="rsvp">
+          <p class="lead" data-slot="rsvp-deadline"></p>
+          <p class="info-panel__more" data-slot="rsvp-text"></p>
+          <div class="actions" data-slot="rsvp-actions"></div>
+        </div>
+        <div class="info-panel" id="info-regalo" role="tabpanel" aria-labelledby="tab-regalo" data-section="regalo">
+          <p class="info-panel__more" data-slot="gift-text"></p>
+          <div class="iban-card">
+            <dl>
+              <dt>Intestatari</dt><dd data-slot="gift-holder"></dd>
+              <dt>IBAN</dt><dd class="iban" data-slot="gift-iban"></dd>
+              <dt>Causale</dt><dd data-slot="gift-reason"></dd>
+            </dl>
+            <button class="btn" type="button" data-action="copy-iban">Copia IBAN</button>
+            <p class="iban-card__feedback" role="status" aria-live="polite" data-slot="gift-feedback"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- data, ora e luogo in evidenza: li scrive profondita.js, come nella C -->
+      <p class="letters__text"></p>
+    </div>
+  </section>
+
+  <main>
     <section class="section section--countdown" id="countdown" aria-labelledby="countdown-title">
       <div class="container center">
         <p class="eyebrow" data-reveal data-slot="countdown-date"></p>

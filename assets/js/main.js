@@ -26,8 +26,7 @@
   }
 
   function removeSection(name) {
-    var section = document.querySelector('[data-section="' + name + '"]');
-    if (section) section.remove();
+    document.querySelectorAll('[data-section="' + name + '"]').forEach(function (node) { node.remove(); });
   }
 
   // <picture> con WebP e JPG nelle larghezze create da tools/ottimizza-foto.py
@@ -320,6 +319,58 @@
     }
   })();
 
+  /* --- IBAN cifrato ----------------------------------------------------- */
+  // L'IBAN in config.js è cifrato (AES-GCM, tools/cifra-iban.mjs). La chiave è nel link mandato
+  // agli invitati, dopo il # (quella parte non arriva mai al server): si toglie dalla barra degli
+  // indirizzi e si conserva nel browser come chiave non esportabile, per le visite successive.
+  var KEY_IN_LINK = /^#([A-Za-z0-9_-]{22})$/;
+
+  function fromBase64url(text) {
+    var s = text.replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); });
+  }
+
+  function keyStore(value) {
+    return new Promise(function (resolve, reject) {
+      var open = indexedDB.open('invito', 1);
+      open.onupgradeneeded = function () { open.result.createObjectStore('chiavi'); };
+      open.onerror = function () { reject(open.error); };
+      open.onsuccess = function () {
+        var store = open.result.transaction('chiavi', value ? 'readwrite' : 'readonly').objectStore('chiavi');
+        var op = value ? store.put(value, 'iban') : store.get('iban');
+        op.onsuccess = function () { resolve(op.result); };
+        op.onerror = function () { reject(op.error); };
+      };
+    });
+  }
+
+  function openIban(sealed) {
+    var subtle = window.crypto && window.crypto.subtle;
+    var parts = (sealed || '').split('.');
+    if (!subtle || !window.indexedDB || parts.length !== 3 || parts[0] !== 'v1') return Promise.reject(new Error('IBAN non disponibile'));
+    var decrypt = function (key) {
+      if (!key) throw new Error('nessuna chiave');
+      return subtle.decrypt({ name: 'AES-GCM', iv: fromBase64url(parts[1]) }, key, fromBase64url(parts[2]));
+    };
+    var stored = function () { return keyStore().then(decrypt); };
+    var match = KEY_IN_LINK.exec(location.hash);
+    var result;
+    if (match) {
+      history.replaceState(null, '', location.pathname + location.search);
+      result = subtle.importKey('raw', fromBase64url(match[1]), 'AES-GCM', false, ['decrypt']).then(function (key) {
+        // si conserva solo una chiave che ha funzionato; se quella del link è sbagliata si prova quella salvata
+        return decrypt(key).then(function (plain) {
+          keyStore(key).catch(function () {});
+          return plain;
+        });
+      }).catch(stored);
+    } else {
+      result = stored();
+    }
+    return result.then(function (plain) { return new TextDecoder().decode(plain); });
+  }
+
   /* --- Regalo ----------------------------------------------------------- */
   (function gift() {
     var g = C.regalo;
@@ -327,8 +378,13 @@
     slot('gift-title').textContent = g.titolo;
     slot('gift-text').textContent = g.testo;
     slot('gift-holder').textContent = g.intestatario;
-    slot('gift-iban').textContent = g.iban;
     slot('gift-reason').textContent = g.causale;
+    // senza la chiave giusta la sezione non compare: chi non ha il link non sa che esiste
+    var ibanText = '';
+    openIban(g.ibanCifrato).then(function (value) {
+      ibanText = value;
+      slot('gift-iban').textContent = value;
+    }, function () { removeSection('regalo'); });
 
     var feedback = slot('gift-feedback');
     var done = function (ok) {
@@ -348,7 +404,7 @@
       return ok;
     }
     document.querySelector('[data-action="copy-iban"]').addEventListener('click', function () {
-      var iban = g.iban.replace(/\s+/g, '');
+      var iban = ibanText.replace(/\s+/g, '');
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(iban).then(function () { done(true); }, function () { done(fallbackCopy(iban)); });
       } else {

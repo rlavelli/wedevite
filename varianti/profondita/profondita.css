@@ -1,12 +1,12 @@
 /* ==========================================================================
    Variante "profondità" (ispirata alle demo Ready co. "Breathtaking" / "Explore").
-   1. Copertina a tre strati: foto, nomi, cime dei pini ritagliate davanti ai nomi.
+   1. Copertina: foto e nomi, sempre davanti alla foto.
    2. Uscita: la copertina si ingrandisce e sfuma nel petrolio.
    3. Quattro foto inclinate in 3D che si raddrizzano, con le lettere sotto.
    profondita.js imposta --p (0 → 1) su ogni scena; senza .depth-on tutto è fermo.
    ========================================================================== */
 
-/* --- 1-2. Copertina a strati ------------------------------------------- */
+/* --- 1-2. Copertina ------------------------------------------------------ */
 .depth { position: relative; background: var(--accento); --p: 0; }
 .depth__stage { position: relative; height: 100vh; height: 100svh; overflow: hidden; color: var(--chiaro); }
 .depth-on .depth { height: 220vh; height: 220svh; }
@@ -18,13 +18,12 @@
 }
 .depth__scene { position: absolute; inset: 0; transform: scale(var(--zoom)); transform-origin: 50% 40%; will-change: transform; }
 .depth__layer, .depth__layer picture, .depth__layer img { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* foto e pini hanno esattamente lo stesso ritaglio, così combaciano */
 .depth__layer img { object-fit: cover; object-position: 60% 50%; filter: brightness(.86) saturate(1.05); }
 
-/* i nomi stanno tra la foto e i pini e scorrono un po' più in fretta: si vede che passano dietro */
+/* i nomi salgono un po' più in fretta della foto: sembrano su un piano davanti */
 .depth__names {
-  position: absolute; left: 0; right: 0; top: 30%; margin: 0; padding: 0 5vw;
-  font: 400 clamp(3.4rem, 17vw, 8rem)/.95 var(--script);
+  position: absolute; left: 0; right: 0; top: 30%; margin: 0; padding: 0 8vw; /* margine per lo zoom della scena */
+  font: 400 clamp(3.2rem, 15vw, 8rem)/.95 var(--script);
   text-shadow: 0 2px 30px rgba(10, 30, 32, .35);
   transform: translate3d(0, calc(var(--p) * -9vh), 0);
 }
@@ -92,7 +91,7 @@
   opacity: var(--q); transform: translate3d(0, calc((1 - var(--q)) * 20px), 0);
 }
 
-/* --- Computer: nomi su una riga, che passano dietro al pino a destra ---- */
+/* --- Computer: nomi su una riga ---------------------------------------- */
 @media (min-width: 48rem) and (orientation: landscape) {
   .depth__layer img { object-position: 50% 50%; }
   .depth__names { top: 34%; padding: 0; text-align: center; font-size: clamp(4.5rem, 8.5vw, 9rem); }

@@ -12,6 +12,9 @@ Sito statico di una pagina, pubblicato su GitHub Pages. Guida per utenti e pubbl
 - **Palette "Lago alpino"** (scelta dall'utente): avorio, petrolio `#1F5F63`, salvia, oro tenue, testo `#4A4A48` (mai nero).
   Coerente con l'invito cartaceo (foto del lago Moraine, nomi in corsivo).
 - Sezione regalo **attiva** (l'invito cartaceo la prevede).
+- **IBAN cifrato**, il resto in chiaro (scelta dell'utente: luogo e programma sono già pubblici).
+  AES-GCM con chiave casuale da 128 bit nel link dopo `#`; `tools/cifra-iban.mjs` scrive `regalo.ibanCifrato`.
+  Chiave in `privato/` (fuori da git). Senza chiave la sezione regalo sparisce. Mai l'IBAN in chiaro nel repository.
 
 ## Struttura
 

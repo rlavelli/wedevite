@@ -120,7 +120,9 @@ window.WEDDING = {
     titolo: "Un pensiero",
     testo: "La vostra presenza sarà il regalo più bello ma, se lo desiderate, potete contribuire alla nostra prossima avventura.",
     intestatario: "Luisa e Riccardo",              // SEGNAPOSTO
-    iban: "IT00 X000 0000 0000 0000 0000 000",     // SEGNAPOSTO
+    // IBAN cifrato: non si scrive qui a mano, lo genera  node tools/cifra-iban.mjs  (vedi README).
+    // Si vede solo aprendo il sito dal link con la chiave; senza, la sezione regalo non compare.
+    ibanCifrato: "",
     causale: "Regalo di nozze Luisa e Riccardo"
   },
 

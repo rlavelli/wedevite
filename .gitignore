@@ -12,3 +12,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Chiave dell'IBAN cifrato (tools/cifra-iban.mjs): mai su GitHub
+privato/

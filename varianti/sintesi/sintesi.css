@@ -1,121 +1,88 @@
 /* ==========================================================================
-   Variante "sintesi": copertina della variante C (profondita.css), poi quattro
-   schede inclinate in 3D che si raddrizzano: luogo, programma, conferma, regalo.
-   Due modi, scelti da sintesi.js:
-   - .tiles-pin (le schede stanno in uno schermo): come nella C la sezione resta ferma
-     e le schede salgono una dopo l'altra; --p arriva da profondita.js;
-   - altrimenti ogni [data-rise] riceve il suo --t mentre scorre con la pagina.
-   Senza JS o con movimento ridotto --t vale 1: tutto fermo.
+   Variante "sintesi": è la variante C (profondita.css fa copertina e foto in 3D),
+   con quattro etichette al posto delle cifre e i dettagli sotto le foto.
+   Qui solo le differenze; sintesi.js gestisce la scelta della foto.
    ========================================================================== */
 
-.tiles { position: relative; background: var(--accento); color: var(--chiaro); --p: 1; }
-.tiles__stage { padding: var(--section-y) 0; }
-/* come nella C: la sezione sale sopra la fine della copertina (trasparente in quel tratto) */
-.depth-on .tiles {
-  z-index: 1; margin-top: -100vh; margin-top: -100svh; padding-top: 30svh;
-  background: linear-gradient(180deg, transparent 0, transparent 100svh, var(--accento) 100svh);
+/* --- Foto come pulsanti, etichette al posto delle cifre ------------------- */
+.letters--info .letters__row {
+  grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; /* 3 foto se una sezione è spenta */
+  width: min(92vw, 40rem);
 }
-.depth-on.tiles-pin .tiles { height: 260vh; height: 260svh; padding-top: 0; }
-.depth-on.tiles-pin .tiles__stage {
-  position: sticky; top: 0; min-height: 100vh; min-height: 100svh; padding: 1rem 0;
-  display: flex; flex-direction: column; justify-content: center;
+.letters--info .letters__item {
+  padding: 0; border: 0; background: none; color: inherit; font: inherit;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
-
-.tiles__row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
-  width: min(100% - 1.5rem, 76rem); margin: 0 auto; perspective: 1000px;
+.letters--info .letters__photo { display: block; }
+.letters--info .letters__char {
+  margin-top: .55rem;
+  font: italic 400 clamp(.95rem, 3.9vw, 1.45rem)/1.15 var(--serif);
+  opacity: calc(var(--t) * .75);
 }
+/* foto scelta: filetto oro sotto l'etichetta */
+.letters--info .letters__char::after {
+  content: ""; display: block; width: 1.6rem; height: 1px; margin: .45rem auto 0;
+  background: var(--oro); transform: scaleX(0); transition: transform .4s var(--ease);
+}
+.letters--info .letters__item[aria-selected="true"] .letters__char { opacity: var(--t); }
+.letters--info .letters__item[aria-selected="true"] .letters__char::after { transform: none; }
 
-/* --d: ritardo della seconda colonna; --ry: inclinazione laterale di partenza */
-.tile { --t: 1; --d: 0; --ry: 14deg; }
-.tile:nth-child(even) { --d: .12; --ry: -14deg; }
-
-.tile__card {
-  --s: clamp(0, calc(var(--t) * 1.25 - var(--d)), 1);
-  display: flex; flex-direction: column; height: 100%;
+/* --- Dettagli sotto le foto ------------------------------------------------ */
+/* tutti i riquadri nella stessa cella: l'altezza è quella del più alto e non salta cambiando foto */
+.info-panels {
+  --q: clamp(0, calc((var(--p) - .5) / .2), 1);
+  display: grid; width: min(92vw, 30rem); margin: 1.5rem auto 0;
+  opacity: var(--q); transform: translate3d(0, calc((1 - var(--q)) * 20px), 0);
+}
+.info-panel {
+  grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 1.25rem 1.25rem 1.4rem; border-top: 3px solid var(--salvia);
   background: var(--fondo-alt); color: var(--testo); text-align: center;
   box-shadow: 0 30px 50px -30px rgba(0, 0, 0, .6);
-  transform-origin: 50% 100%;
-  transform:
-    translate3d(0, calc((1 - var(--s)) * 30vh), 0)
-    rotateX(calc((1 - var(--s)) * 35deg))
-    rotateY(calc((1 - var(--s)) * var(--ry)));
-  opacity: calc(var(--s) * 1.6);
-  will-change: transform;
+  visibility: hidden; opacity: 0; transition: opacity .35s var(--ease), visibility .35s;
 }
-.tile__photo { aspect-ratio: 4 / 3; overflow: hidden; }
-.tile__photo picture { display: block; width: 100%; height: 100%; }
-.tile__photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.25 - var(--s) * .25)); }
+.info-panel.is-active { visibility: visible; opacity: 1; }
+.info-panel__more { display: none; }
 
-.tile__body { flex: 1; display: flex; flex-direction: column; padding: 1.1rem .7rem 1.2rem; border-top: 3px solid var(--salvia); }
-.tile__title { margin: 0 0 .7rem; font: italic 400 1.5rem/1.1 var(--serif); color: var(--accento); }
-.tile__more { display: none; }
+/* contenuti di main.js, ridotti per stare nel riquadro */
+.info-panel [data-reveal] { opacity: 1; transform: none; transition: none; }
+.info-panel .places { margin: 0; }
+.info-panel .place { background: none; box-shadow: none; }
+.info-panel .place__body { padding: 0; border: 0; }
+.info-panel .place .eyebrow, .info-panel .place__times { display: none; }
+.info-panel .place__name { margin: 0 0 .35rem; font-size: 1.5rem; }
+.info-panel .place__address { margin: 0; font-size: .92rem; line-height: 1.5; }
+.info-panel .actions { margin-top: 1rem; }
 
-/* i contenuti di main.js, ridotti per stare in una scheda; pulsanti allineati in fondo */
-.tile [data-reveal] { opacity: 1; transform: none; transition: none; }
-.tile .places, .tile .place, .tile .place__body, .tile .iban-card { flex: 1; display: flex; flex-direction: column; }
-.tile .places { margin: 0; gap: 1rem; }
-.tile .place { background: none; box-shadow: none; }
-.tile .place__body { padding: 0; border: 0; }
-.tile .place .eyebrow, .tile .place__times { display: none; }
-.tile .place__name { margin: 0 0 .4rem; font-size: 1.15rem; }
-.tile .place__address { margin: 0; font-size: .8rem; line-height: 1.45; }
+.info-panel .timeline { --time-col: 3rem; width: fit-content; margin: 0 auto; }
+.info-panel .timeline::before, .info-panel .timeline__item::before, .info-panel .timeline__text { display: none; }
+.info-panel .timeline__item { gap: 0 .8rem; align-items: baseline; padding: 0 0 .4rem; text-align: left; }
+.info-panel .timeline__item:last-child { padding-bottom: 0; }
+.info-panel .timeline__time { font-size: 1.3rem; }
+.info-panel .timeline__title { margin: 0; font-size: .68rem; }
 
-.tile .timeline { --time-col: 2.7rem; width: fit-content; margin: 0 auto; }
-.tile .timeline::before, .tile .timeline__item::before, .tile .timeline__text { display: none; }
-.tile .timeline__item { gap: 0 .55rem; align-items: baseline; padding: 0 0 .45rem; text-align: left; }
-.tile .timeline__time { font-size: 1.1rem; }
-.tile .timeline__title { margin: 0; font-size: .6rem; letter-spacing: .16em; }
+.info-panel .lead { margin: 0; font-size: 1.15rem; line-height: 1.4; }
 
-.tile .lead { margin: 0; font-size: .95rem; line-height: 1.35; }
+.info-panel .iban-card { margin: 0; padding: 0; border: 0; background: none; }
+.info-panel .iban-card dl { display: grid; grid-template-columns: auto 1fr; gap: .3rem .8rem; margin: 0 0 1rem; text-align: left; }
+.info-panel .iban-card dt { margin: 0; align-self: center; }
+.info-panel .iban-card dd { margin: 0; font-size: .9rem; line-height: 1.4; }
+.info-panel .iban { font-size: .9rem; white-space: normal; }
+.info-panel .iban-card__feedback { min-height: 0; margin: .5rem 0 0; font-size: .8rem; }
 
-.tile .iban-card { margin: 0; padding: 0; background: none; border: 0; }
-.tile .iban-card dl { margin: 0 0 1rem; }
-.tile .iban-card dt, .tile .iban-card dd:not(.iban) { display: none; }
-.tile .iban { font-size: .78rem; white-space: normal; }
-.tile .iban-card__feedback { min-height: 0; margin: .5rem 0 0; font-size: .75rem; line-height: 1.3; }
-
-.tile .actions, .tile .iban-card .btn { margin-top: auto; }
-.tile .actions { padding-top: 1rem; gap: .5rem; }
-.tile .btn { width: 100%; min-height: 2.6rem; padding: .6rem .5rem; font-size: .6rem; line-height: 1.25; letter-spacing: .14em; }
-
-/* --- Data, ora e luogo in evidenza sotto le schede ---------------------- */
-.tiles__when { --t: 1; max-width: 34rem; margin: 3.5rem auto 0; padding: 0 var(--gutter); text-align: center; }
-.tiles__when span {
-  display: block; padding-top: 1.75rem;
-  background: linear-gradient(90deg, transparent, var(--oro), transparent) top center / 7rem 1px no-repeat;
-  font: italic 400 clamp(1.4rem, 5.2vw, 2rem)/1.45 var(--serif); font-variant-numeric: lining-nums;
-  opacity: var(--t); transform: translate3d(0, calc((1 - var(--t)) * 24px), 0);
+/* più spazio verticale disponibile: testi completi */
+@media (min-height: 48rem) {
+  .info-panel__more { display: block; margin: .6rem 0 0; font: italic 400 1rem/1.4 var(--serif); }
+  .info-panel .iban-card { margin-top: 1rem; }
 }
 
-/* --- Tablet e computer: quattro colonne, testi completi ----------------- */
-@media (min-width: 48rem) {
-  .tiles__row { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; width: min(92vw, 76rem); }
-  .tile:nth-child(1) { --d: 0;   --ry: 21deg; }
-  .tile:nth-child(2) { --d: .08; --ry: 7deg; }
-  .tile:nth-child(3) { --d: .16; --ry: -7deg; }
-  .tile:nth-child(4) { --d: .24; --ry: -21deg; }
-  .tile__photo { aspect-ratio: 16 / 10; }
-  .tile__body { padding: 1.5rem 1.1rem 1.5rem; }
-  .tile__title { font-size: 1.8rem; }
-  .tile__more { display: block; margin: .6rem 0 0; font: italic 400 1.05rem/1.4 var(--serif); }
-  .tile .place__name { font-size: 1.4rem; }
-  .tile .place__address { font-size: .9rem; }
-  .tile .timeline__time { font-size: 1.3rem; }
-  .tile .timeline__title { font-size: .66rem; }
-  .tile .iban-card dt { display: block; margin-top: .7rem; }
-  .tile .iban-card dd:not(.iban) { display: block; margin-top: .2rem; font-size: .85rem; line-height: 1.4; }
-  .tile .btn { font-size: .64rem; }
-}
+/* fermata e testo sotto più compatti della C: qui sotto le foto c'è il riquadro */
+.depth-on .letters--info .letters__stage { padding: 1.25rem 0; }
+.letters--info .letters__text { margin-top: 1.5rem; }
+
+/* senza spazio per tenere tutto in uno schermo (sintesi.js): la sezione scorre, le foto salgono entrando */
+.depth-on.info-free .letters--info { height: auto; margin-top: 0; background: var(--accento); }
+.depth-on.info-free .letters--info .letters__stage { position: relative; padding: var(--section-y) 0; }
 
 /* data e ora sono già in evidenza sopra: nel conto alla rovescia non si ripetono */
-.tiles ~ .section--countdown .eyebrow { display: none; }
-
-/* --- Modo fermo (.tiles-pin): stessi tempi della variante C ------------- */
-.tiles-pin .tile:nth-child(1) { --i: 0; }
-.tiles-pin .tile:nth-child(2) { --i: 1; }
-.tiles-pin .tile:nth-child(3) { --i: 2; }
-.tiles-pin .tile:nth-child(4) { --i: 3; }
-.tiles-pin .tile { --t: clamp(0, calc((var(--p) - var(--i) * .08) / .5), 1); }
-.tiles-pin .tile__card { --s: var(--t); }
-.tiles-pin .tiles__when { --t: clamp(0, calc((var(--p) - .6) / .25), 1); margin-top: 2rem; }
+.letters--info ~ main .section--countdown .eyebrow { display: none; }

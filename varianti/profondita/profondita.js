@@ -1,38 +1,14 @@
 /* ==========================================================================
    Variante "profondità". Va caricato dopo main.js.
-   Aggiunge lo strato con le cime dei pini (assets/img/lago-*-pini-*.webp)
-   e passa al CSS quanto è stata scorsa ogni scena (--p da 0 a 1).
+   Passa al CSS quanto è stata scorsa ogni scena (--p da 0 a 1).
    ========================================================================== */
 (function () {
   'use strict';
 
   var C = window.WEDDING;
   if (!C) return;
-  var cov = C.copertina;
 
-  function srcset(foto, suffix) {
-    return foto.larghezze.map(function (w) { return foto.src + suffix + '-' + w + '.webp ' + w + 'w'; }).join(', ');
-  }
-
-  // Strato davanti ai nomi: stesse foto, solo le cime dei pini (trasparente altrove)
-  var front = document.querySelector('[data-depth-front]');
-  if (front) {
-    var pic = document.createElement('picture');
-    var wide = document.createElement('source');
-    wide.media = '(min-width: 48rem) and (orientation: landscape)';
-    wide.srcset = srcset(cov.fotoOrizzontale, '-pini');
-    wide.sizes = '100vw';
-    var img = document.createElement('img');
-    img.srcset = srcset(cov.fotoVerticale, '-pini');
-    img.sizes = '100vw';
-    img.src = cov.fotoVerticale.src + '-pini-' + cov.fotoVerticale.larghezze[0] + '.webp';
-    img.alt = '';
-    img.decoding = 'async';
-    pic.append(wide, img);
-    front.append(pic);
-  }
-
-  // Nomi su tre righe (Luisa / e / Riccardo), allineati per incrociare i due pini
+  // Nomi su tre righe (Luisa / e / Riccardo)
   var names = document.querySelector('.depth__names');
   if (names) {
     names.replaceChildren();
