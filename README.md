@@ -61,7 +61,7 @@ Per rifare l'immagine dell'anteprima aggiungi `--og` al comando: crea `og-image.
 
 WhatsApp legge solo `index.html`, non `config.js`. Il blocco da modificare è in cima a `index.html`,
 tra le righe `ANTEPRIMA SU WHATSAPP`: titolo, descrizione e indirizzo del sito
-(oggi `https://rlavelli.github.io/wedevite/`).
+(oggi `https://riccardoeluisa.it/`).
 
 WhatsApp ricorda l'anteprima di un link per giorni: **sistema titolo e immagine prima di mandare il link** agli invitati.
 
@@ -80,7 +80,7 @@ Chi apre l'indirizzo senza chiave non vede la sezione del regalo e non sa che es
 
 1. Dalla cartella del progetto, in un terminale: `node tools/cifra-iban.mjs`
 2. Scrivi l'IBAN (anche con gli spazi). Lo script controlla che sia valido, lo cifra in `config.js` → `regalo.ibanCifrato`
-   e stampa il link da mandare, per esempio `https://rlavelli.github.io/wedevite/#Xq7pL2vR9mT4wZ8nB3cF6h`.
+   e stampa il link da mandare, per esempio `https://riccardoeluisa.it/#Xq7pL2vR9mT4wZ8nB3cF6h`.
 3. Pubblica come al solito (vedi *Aggiornare il sito*) e manda **quel** link agli invitati.
 
 Da sapere:

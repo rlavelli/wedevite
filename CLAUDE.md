@@ -1,6 +1,7 @@
 # wedevite – Invito digitale per il matrimonio di Luisa e Riccardo
 
 Sito statico di una pagina, pubblicato su GitHub Pages. Guida per utenti e pubblicazione: `README.md`.
+Lavoro in sospeso (dominio, IBAN vero, foto, variante da scegliere): `PROSSIMI-PASSI.md`, da leggere a inizio sessione.
 
 ## Decisioni prese
 
