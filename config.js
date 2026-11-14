@@ -66,6 +66,8 @@ window.WEDDING = {
         { ora: "17:30", cosa: "Ricevimento" }  // SEGNAPOSTO
       ],
       mapsLink: "",
+      // parcheggio per gli ospiti: una riga sotto il luogo, con il link al punto su Google Maps (null per toglierlo)
+      parcheggio: { testo: "Parcheggio per gli ospiti", mapsLink: "https://maps.app.goo.gl/WdN7uuer4MHqWGvVA" },
       foto: null,
       alt: ""
     }
@@ -86,8 +88,9 @@ window.WEDDING = {
 
   /* --- Informazioni utili ---------------------------------------------- */
   // icona: parcheggio | strada | hotel | abito | info
+  // Sezione tolta (attivo: false): il parcheggio ora è nella scheda del luogo.
   info: {
-    attivo: true,
+    attivo: false,
     titolo: "Informazioni utili",
     // SEGNAPOSTO
     voci: [

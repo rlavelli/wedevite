@@ -58,8 +58,10 @@ a { color: var(--accento); }
 .center { text-align: center; }
 
 .section { padding: var(--section-y) 0; }
-.section--intro, .section--places, .section--info, .section--gift { background: var(--fondo); }
-.section--program, .section--rsvp { background: var(--fondo-alt); }
+/* fondi alternati (avorio / bianco caldo); --bg serve anche al rombo dell'ornamento.
+   Senza "Informazioni utili": programma chiaro, conferma avorio, regalo chiaro. */
+.section--intro, .section--places, .section--info, .section--rsvp { --bg: var(--fondo); background: var(--bg); }
+.section--program, .section--gift { --bg: var(--fondo-alt); background: var(--bg); }
 
 /* --- Tipografia ------------------------------------------------------- */
 .eyebrow {
@@ -86,11 +88,10 @@ a { color: var(--accento); }
 }
 .ornament::after {
   content: ""; position: absolute; left: 50%; top: 50%;
-  width: 7px; height: 7px; border: 1px solid var(--oro); background: var(--fondo);
+  width: 7px; height: 7px; border: 1px solid var(--oro); background: var(--bg, var(--fondo));
   transform: translate(-50%, -50%) rotate(45deg);
 }
 .center .ornament { margin-left: auto; margin-right: auto; }
-.section--rsvp .ornament::after { background: var(--fondo-alt); }
 
 /* --- Pulsanti --------------------------------------------------------- */
 .actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 2.25rem; }
@@ -222,6 +223,21 @@ a { color: var(--accento); }
 .place__time { font: 400 1.9rem/1 var(--serif); color: var(--accento); }
 .place__what { font: 400 .68rem/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; }
 .place .actions { margin-top: 2rem; }
+.place__parking {
+  display: inline-flex; align-items: center; gap: .9rem;
+  margin-top: 2rem; padding: 1.5rem .5rem 0; border-top: 1px solid rgba(184, 155, 94, .4);
+  text-align: left; text-decoration: none; color: var(--testo);
+}
+.place__parking-mark {
+  flex: none; display: grid; place-items: center; width: 2.1rem; height: 2.1rem;
+  border: 1px solid var(--oro); border-radius: 50%;
+  font: 500 1.05rem/1 var(--serif); color: var(--accento);
+  transition: background-color .35s var(--ease), color .35s var(--ease);
+}
+.place__parking-text { display: flex; flex-direction: column; gap: .3rem; }
+.place__parking-label { font: 500 .66rem/1.2 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: var(--accento); }
+.place__parking-hint { font: italic 400 1.05rem/1.2 var(--serif); text-decoration: underline; text-decoration-color: rgba(184, 155, 94, .6); text-underline-offset: .2em; }
+.place__parking:hover .place__parking-mark, .place__parking:focus-visible .place__parking-mark { background: var(--accento); color: var(--chiaro); }
 
 /* --- Programma -------------------------------------------------------- */
 .timeline { position: relative; margin: 3rem 0 0; padding: 0; list-style: none; }

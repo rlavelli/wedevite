@@ -260,6 +260,20 @@
       var actions = el('div', 'actions');
       actions.append(iconLink('btn btn--ghost', mapsUrl(p), 'mappa', 'Apri su Google Maps'));
       body.append(actions);
+      if (p.parcheggio && p.parcheggio.mapsLink) {
+        // riga discreta sotto il pulsante: "P" incorniciata, testo e indicazioni
+        var park = el('a', 'place__parking');
+        park.href = p.parcheggio.mapsLink;
+        park.target = '_blank';
+        park.rel = 'noopener';
+        park.append(el('span', 'place__parking-mark', 'P'));
+        var txt = el('span', 'place__parking-text');
+        txt.append(el('span', 'place__parking-label', p.parcheggio.testo || 'Parcheggio'),
+          el('span', 'place__parking-hint', 'Indicazioni su Google Maps'));
+        park.append(txt);
+        park.querySelector('.place__parking-mark').setAttribute('aria-hidden', 'true');
+        body.append(park);
+      }
       card.append(body);
       box.append(card);
     });
