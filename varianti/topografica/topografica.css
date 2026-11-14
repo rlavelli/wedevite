@@ -63,8 +63,11 @@ html.map-pending { overflow: hidden; }
   perspective: 2400px;
   /* chiusa: resta visibile solo la metà sinistra, quindi la si sposta al centro */
   transform: translateX(25%);
-  transition: transform 1.5s cubic-bezier(.6, .05, .25, 1);
+  opacity: 0; /* compare insieme alle curve di livello (classe is-ready da topografica.js) */
+  transition: transform 1.5s cubic-bezier(.6, .05, .25, 1), opacity .7s var(--ease);
 }
+.mapcover.is-ready .map { opacity: 1; }
+.mapcover:not(.is-ready) .mapcover__hint { visibility: hidden; }
 @media (orientation: portrait) {
   .map { --w: min(90vw, calc((100svh - 8rem) * .8)); aspect-ratio: 4 / 5; }
 }

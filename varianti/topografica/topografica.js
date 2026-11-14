@@ -76,7 +76,8 @@
       }
     }
 
-    var SIZE = 1600, K = SIZE / 600;
+    // 1280 px bastano su telefono; su schermi più grandi 1600
+    var SIZE = Math.min(window.innerWidth, window.innerHeight) < 600 ? 1280 : 1600, K = SIZE / 600;
     var canvas = document.createElement('canvas');
     canvas.width = canvas.height = SIZE;
     var ctx = canvas.getContext('2d');
@@ -135,7 +136,8 @@
     }
 
     if (canvas.toBlob) {
-      canvas.toBlob(function (blob) { done(blob ? URL.createObjectURL(blob) : canvas.toDataURL()); });
+      // WebP: più veloce da produrre e più leggero del PNG (dove non c'è, il browser fa PNG)
+      canvas.toBlob(function (blob) { done(blob ? URL.createObjectURL(blob) : canvas.toDataURL()); }, 'image/webp', .9);
     } else {
       done(canvas.toDataURL());
     }
@@ -145,6 +147,21 @@
     var img = document.getElementById('map-topo');
     if (img) img.setAttribute('href', url);
     html.style.setProperty('--topo', 'url("' + url + '")');
+  }
+
+  // Con la mappa d'apertura le curve si disegnano subito, prima di tutto il resto, e la mappa
+  // si mostra solo quando l'immagine è pronta e decodificata: così compaiono insieme.
+  var topoReady = null;
+  if (html.classList.contains('map-pending') && document.getElementById('mapcover')) {
+    topoReady = new Promise(function (resolve) {
+      topography(function (url) {
+        applyTopography(url);
+        var probe = new Image();
+        probe.src = url;
+        var ok = function () { resolve(url); };
+        if (probe.decode) probe.decode().then(ok, ok); else { probe.onload = probe.onerror = ok; }
+      });
+    });
   }
 
   /* --- 2. Percorso lungo la pagina ------------------------------------- */
@@ -351,13 +368,20 @@
 
   /* --- 3. Mappa d'apertura --------------------------------------------- */
   var cover = document.getElementById('mapcover');
-  if (!cover || !html.classList.contains('map-pending')) {
+  if (!cover || !topoReady) {
     if (cover) cover.remove();
     // senza mappa le curve servono solo al piè di pagina: si disegnano quando il browser è libero
     (window.requestIdleCallback || function (fn) { setTimeout(fn, 600); })(function () { topography(applyTopography); });
     return;
   }
-  topography(applyTopography);
+  var ready = false;
+  function showMap() {
+    if (ready) return;
+    ready = true;
+    cover.classList.add('is-ready');
+  }
+  topoReady.then(showMap);
+  setTimeout(showMap, 2500); // se il disegno non riesce, la mappa compare comunque
   // la mappa si chiude sempre sulla copertina, anche ricaricando a metà pagina
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
@@ -455,6 +479,7 @@
   }
 
   btn.addEventListener('click', function () {
+    if (!ready) return; // la mappa non è ancora comparsa
     if (state === 'closed') {
       state = 'opening';
       cover.classList.add('is-open');
