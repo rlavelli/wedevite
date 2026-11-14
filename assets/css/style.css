@@ -172,6 +172,9 @@ a { color: var(--accento); }
 
 /* --- Il nostro matrimonio --------------------------------------------- */
 .intro { display: grid; gap: 3.5rem; align-items: center; }
+/* timbro con la bussola al posto della firma, appena inclinato come un timbro vero */
+.intro__stamp { --paper: var(--fondo); width: min(13rem, 62%); margin-top: 1.75rem; color: var(--accento); }
+.intro__stamp svg { transform: rotate(-7deg); }
 .intro__photo { position: relative; margin: 0 1rem 0 0; }
 .intro__photo::before {
   content: ""; position: absolute; inset: 1rem -1rem -1rem 1rem;
@@ -286,6 +289,9 @@ a { color: var(--accento); }
   border: 1px solid rgba(184, 155, 94, .8); border-radius: 50%;
   font: italic 400 1.5rem/1 var(--serif);
 }
+/* sigillo con la bussola (assets/js/bussola.js), avorio sul petrolio */
+.footer__seal { --paper: var(--accento); width: 12rem; margin: 0 auto 1.25rem; color: var(--chiaro); }
+.footer__seal + .footer__names { margin-bottom: 1.5rem; }
 .footer__names { margin: 0; font: 400 clamp(2.6rem, 11vw, 4rem)/1.1 var(--script); }
 .footer__date { margin: .75rem 0 1.5rem; font: 400 .75rem/1.6 var(--sans); letter-spacing: .34em; text-transform: uppercase; opacity: .85; }
 .footer__thanks { margin: 0 auto; max-width: 26rem; font: italic 400 1.3rem/1.5 var(--serif); }
@@ -321,3 +327,13 @@ a { color: var(--accento); }
   .js [data-reveal], .js .hero__content > * { opacity: 1; transform: none; }
   .hero__scroll-line::after { top: 30%; }
 }
+
+/* --- Bussola (assets/js/bussola.js) ------------------------------------ */
+.bussola { display: block; width: 100%; height: auto; overflow: visible; }
+.bs-ln   { fill: none; stroke: currentColor; stroke-width: 1; }
+.bs-thin { stroke-width: .7; }
+.bs-dots { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 0 7.2; }
+.bs-tk   { fill: none; stroke: currentColor; stroke-width: 5; stroke-dasharray: .7 4.3; }
+.bs-script { font: 400 32px var(--script); fill: currentColor; }
+.bs-date   { font: 500 15px var(--serif); letter-spacing: .26em; fill: currentColor; font-feature-settings: "lnum"; }
+.bs-card   { font: 500 15px var(--serif); fill: currentColor; }

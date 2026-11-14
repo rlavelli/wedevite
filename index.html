@@ -53,7 +53,8 @@
           <h2 class="title" id="intro-title" data-slot="intro-title" data-reveal></h2>
           <div class="ornament" aria-hidden="true" data-reveal></div>
           <div class="prose" data-slot="intro-text"></div>
-          <p class="signature" data-slot="intro-signature" data-reveal></p>
+          <!-- al posto della firma, il timbro con la bussola (assets/js/bussola.js) -->
+          <div class="intro__stamp" data-bussola="timbro" data-reveal></div>
         </div>
         <figure class="intro__photo" data-slot="intro-photo" data-reveal></figure>
       </div>
@@ -126,9 +127,9 @@
 
   <footer class="footer">
     <div class="container center">
-      <p class="footer__monogram" data-slot="footer-initials" data-reveal></p>
+      <!-- sigillo con iniziali e data (assets/js/bussola.js): sostituisce monogramma e data -->
+      <div class="footer__seal" data-bussola="sigillo" data-reveal></div>
       <p class="footer__names" data-slot="footer-names" data-reveal></p>
-      <p class="footer__date" data-slot="footer-date" data-reveal></p>
       <p class="footer__thanks" data-slot="footer-thanks" data-reveal></p>
       <div class="actions" data-reveal>
         <a class="btn btn--light" data-slot="share" target="_blank" rel="noopener">Condividi su WhatsApp</a>
@@ -139,6 +140,7 @@
   <noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
 
   <script src="config.js"></script>
+  <script src="assets/js/bussola.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

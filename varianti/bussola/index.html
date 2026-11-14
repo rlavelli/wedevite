@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Prova di design: tutti i percorsi partono dalla radice del sito -->
+  <base href="../../">
+  <title>Bussola · proposte</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/pinyon-script-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="varianti/bussola/bussola.css">
+</head>
+<body>
+  <main class="section">
+    <div class="container center">
+      <p class="eyebrow">Prove di design</p>
+      <h1 class="title">La bussola</h1>
+      <p class="lead">Timbro con la rosa dei venti, nei caratteri dell'invito. Prima i nomi per intero, poi le versioni minimal con le iniziali.</p>
+
+      <div class="controls" role="group" aria-label="Opzioni di visualizzazione">
+        <div class="controls__row">
+          <span class="controls__label">Inchiostro</span>
+          <button type="button" data-ink="petrolio" aria-pressed="true">Petrolio</button>
+          <button type="button" data-ink="oro" aria-pressed="false">Oro</button>
+          <button type="button" data-ink="grigio" aria-pressed="false">Grigio</button>
+          <button type="button" data-ink="negativo" aria-pressed="false">Avorio su petrolio</button>
+        </div>
+        <div class="controls__row">
+          <span class="controls__label">Resa</span>
+          <button type="button" data-fx="netto" aria-pressed="true">Disegno netto</button>
+          <button type="button" data-fx="timbro" aria-pressed="false">Effetto timbro</button>
+        </div>
+      </div>
+
+      <h2 class="group-title">Con i nomi</h2>
+      <div class="stamps" data-group="nomi"></div>
+
+      <h2 class="group-title">Minimal, con le iniziali</h2>
+      <div class="stamps" data-group="iniziali"></div>
+    </div>
+  </main>
+
+  <!-- effetto timbro: bordi appena irregolari e inchiostro non uniforme -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="fx-timbro" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.4" xChannelSelector="R" yChannelSelector="G" result="ruvido"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="11" result="grana"/>
+      <feColorMatrix in="grana" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.72" result="maschera"/>
+      <feComposite in="ruvido" in2="maschera" operator="in"/>
+    </filter>
+  </svg>
+
+  <script src="config.js"></script>
+  <script src="varianti/bussola/bussola.js"></script>
+</body>
+</html>

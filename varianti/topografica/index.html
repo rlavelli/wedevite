@@ -45,12 +45,11 @@
             <rect width="600" height="600" fill="url(#mt-vignette)"/>
             <!-- curve di livello: le disegna topografica.js (stesso disegno a ogni visita) -->
             <image id="map-topo" x="0" y="0" width="600" height="600" preserveAspectRatio="none"/>
-            <g class="ma-compass" transform="translate(495 432)">
-              <circle class="ma-compass-halo" r="40"/>
-              <circle r="34"/><circle r="27"/>
-              <path class="ma-compass-s" d="M0 40L6 6 0 0-6 6zM40 0L6 6 0 0 6-6zM-40 0L-6-6 0 0-6 6z"/>
-              <path class="ma-compass-n" d="M0-40L6-6 0 0-6-6z"/>
-              <text y="-45" text-anchor="middle">N</text>
+            <!-- rosa dei venti del sigillo (assets/js/bussola.js) -->
+            <g class="ma-compass" transform="translate(480 432)">
+              <circle class="ma-compass-halo" r="52"/>
+              <g data-bussola="rosa" transform="scale(.37)" style="color:#E2CE9C;--paper:#1A5154"></g>
+              <text y="-55" text-anchor="middle">N</text>
             </g>
             <text class="ma-title" x="78" y="140">Il nostro itinerario</text>
             <text class="ma-sub" x="80" y="163">11 · 06 · 2027</text>
@@ -65,11 +64,7 @@
           <div class="map__topo" aria-hidden="true"></div>
           <div class="map__cover">
             <p class="map__kicker">Itinerario di nozze</p>
-            <svg class="map__emblem" viewBox="-30 -30 60 60" focusable="false">
-              <circle r="27"/>
-              <path d="M0-24L4.5-4.5 0 0-4.5-4.5z"/>
-              <path class="map__emblem-s" d="M0 24L4.5 4.5 0 0-4.5 4.5zM24 0L4.5 4.5 0 0 4.5-4.5zM-24 0L-4.5-4.5 0 0-4.5 4.5z"/>
-            </svg>
+            <div class="map__emblem" data-bussola="rosa"></div>
             <p class="map__names" data-cover="names"></p>
             <p class="map__date" data-cover="date"></p>
           </div>
@@ -106,6 +101,7 @@
     <div class="hero__media" data-slot="hero-media"></div>
     <div class="hero__veil" aria-hidden="true"></div>
     <div class="hero__content">
+      <div class="hero__rose" data-bussola="rosa" aria-hidden="true"></div>
       <p class="hero__phrase" data-slot="hero-phrase"></p>
       <h1 class="hero__names" data-slot="hero-names"></h1>
       <p class="hero__date" data-slot="hero-date"></p>
@@ -197,9 +193,9 @@
 
   <footer class="footer">
     <div class="container center">
-      <p class="footer__monogram" data-slot="footer-initials" data-reveal></p>
+      <!-- sigillo con iniziali e data: l'aereo atterra sulla sua freccia del nord -->
+      <div class="footer__monogram footer__seal" data-bussola="sigillo" data-reveal></div>
       <p class="footer__names" data-slot="footer-names" data-reveal></p>
-      <p class="footer__date" data-slot="footer-date" data-reveal></p>
       <p class="footer__thanks" data-slot="footer-thanks" data-reveal></p>
       <div class="actions" data-reveal>
         <a class="btn btn--light" data-slot="share" target="_blank" rel="noopener">Condividi su WhatsApp</a>
@@ -210,6 +206,7 @@
   <noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
 
   <script src="config.js"></script>
+  <script src="assets/js/bussola.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="varianti/topografica/topografica.js"></script>
 </body>

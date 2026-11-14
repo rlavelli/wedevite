@@ -1,0 +1,46 @@
+/* Proposte per il timbro con la bussola (si aggiunge a style.css) */
+
+body { --ink: var(--accento); --paper: var(--fondo-alt); }
+body[data-ink="oro"]      { --ink: #A8894B; }
+body[data-ink="grigio"]   { --ink: #666666; }
+body[data-ink="negativo"] { --ink: #F3ECDD; --paper: var(--accento); }
+
+.lead { max-width: 34rem; margin: 0 auto; }
+
+.controls { display: grid; gap: .75rem; margin: 2.25rem auto 0; }
+.controls__row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem; }
+.controls__label { width: 100%; font: 500 .66rem/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; opacity: .7; }
+.controls button {
+  padding: .55rem .95rem; border: 1px solid rgba(31, 95, 99, .35); background: transparent;
+  font: 400 .85rem/1 var(--sans); color: var(--accento); cursor: pointer;
+}
+.controls button[aria-pressed="true"] { background: var(--accento); border-color: var(--accento); color: var(--chiaro); }
+
+.group-title { margin: 4rem 0 0; font: 400 clamp(1.7rem, 5vw, 2.2rem)/1.2 var(--serif); color: var(--accento); }
+
+.stamps { display: grid; gap: 1.5rem; margin-top: 1.75rem; }
+@media (min-width: 46rem) { .stamps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 70rem) { .stamps { grid-template-columns: repeat(3, 1fr); } }
+
+.stamp {
+  margin: 0; padding: 1.75rem 1.25rem 1.5rem;
+  background: var(--paper); border: 1px solid rgba(184, 155, 94, .45);
+  transition: background-color .4s var(--ease);
+}
+.stamp svg { display: block; width: 100%; max-width: 21rem; height: auto; margin: 0 auto; color: var(--ink); overflow: visible; }
+.stamp figcaption { margin-top: 1.25rem; text-align: left; }
+.stamp figcaption strong { display: block; font: 400 1.45rem/1.2 var(--serif); color: var(--accento); }
+.stamp figcaption span { font-size: .92rem; }
+body[data-ink="negativo"] .stamp figcaption, body[data-ink="negativo"] .stamp figcaption strong { color: var(--chiaro); }
+
+body[data-fx="timbro"] .stamp svg > g { filter: url(#fx-timbro); }
+
+/* disegno */
+.ln   { fill: none; stroke: currentColor; stroke-width: 1; }
+.thin { stroke-width: .7; }
+.dots { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 0 7.2; }
+.tk   { fill: none; stroke: currentColor; stroke-width: 5; stroke-dasharray: .7 4.3; }
+.t-script { font: 400 32px var(--script); fill: currentColor; }
+.t-caps   { font: 500 19px var(--serif); letter-spacing: .14em; text-transform: uppercase; fill: currentColor; }
+.t-date   { font: 500 15px var(--serif); letter-spacing: .26em; fill: currentColor; font-feature-settings: "lnum"; }
+.t-card   { font: 500 15px var(--serif); fill: currentColor; }

@@ -138,7 +138,8 @@
       node.setAttribute('data-reveal', '');
       text.append(node);
     });
-    slot('intro-signature').textContent = i.firma;
+    // le pagine col timbro della bussola non hanno la firma
+    if (slot('intro-signature')) slot('intro-signature').textContent = i.firma;
     var fig = slot('intro-photo');
     if (i.foto) fig.append(picture(i.foto, i.alt, '(min-width: 48rem) 40vw, 90vw'));
     else fig.remove();
@@ -429,9 +430,10 @@
 
   /* --- Piè di pagina e condivisione ------------------------------------- */
   (function footer() {
-    slot('footer-initials').textContent = C.coppia.iniziali;
+    // monogramma e data mancano dove c'è il sigillo con la bussola
+    if (slot('footer-initials')) slot('footer-initials').textContent = C.coppia.iniziali;
     slot('footer-names').textContent = COUPLE;
-    slot('footer-date').textContent = formatDate(C.data, { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, ' · ');
+    if (slot('footer-date')) slot('footer-date').textContent = formatDate(C.data, { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, ' · ');
     slot('footer-thanks').textContent = C.footer.grazie;
     var share = slot('share');
     share.href = 'https://wa.me/?text=' + encodeURIComponent(C.condivisione.testo + ' ' + PAGE_URL);
