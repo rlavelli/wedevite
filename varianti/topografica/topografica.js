@@ -147,6 +147,7 @@
     var img = document.getElementById('map-topo');
     if (img) img.setAttribute('href', url);
     html.style.setProperty('--topo', 'url("' + url + '")');
+    html.classList.add('has-topo');
   }
 
   // Con la mappa d'apertura le curve si disegnano subito, prima di tutto il resto, e la mappa
