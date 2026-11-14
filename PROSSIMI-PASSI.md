@@ -49,9 +49,11 @@ Il dominio è su **IONOS** (nameserver `ui-dns`). Il 2/11/2026 il sito risponde 
 
 ## 6. Scelta della variante
 
-- [ ] Provare A, B, C, D, E da `/varianti/` (anche su iPhone/Safari) e decidere quale diventa il sito principale.
+- [ ] Provare A, B, C, D, E, F da `/varianti/` (anche su iPhone/Safari) e decidere quale diventa il sito principale.
 - E (itinerario, 13/11/2026): la mappa d'apertura compare una volta per sessione (`?mappa` la forza);
   provata solo in Chrome (telefono emulato e computer). Da provare: Safari iOS (piega 3D della mappa), "riduci movimento".
+- F (topografica, 14/11/2026): come la E, con curve di livello generate nel browser (seme fisso) e aereo
+  con movimento smorzato. Provata solo in Chrome; se piace il movimento, si può portare anche nella E.
 - Non ancora provato: Safari iOS (IndexedDB, navigazione privata) e la copia dell'IBAN su un telefono vero.
 
 ## 7. Fuori da questo repository
