@@ -45,11 +45,11 @@
             <rect width="600" height="600" fill="url(#mt-vignette)"/>
             <!-- curve di livello: le disegna topografica.js (stesso disegno a ogni visita) -->
             <image id="map-topo" x="0" y="0" width="600" height="600" preserveAspectRatio="none"/>
-            <!-- rosa dei venti del sigillo (assets/js/bussola.js) -->
-            <g class="ma-compass" transform="translate(480 432)">
-              <circle class="ma-compass-halo" r="52"/>
-              <g data-bussola="rosa" transform="scale(.37)" style="color:#E2CE9C;--paper:#1A5154"></g>
-              <text y="-55" text-anchor="middle">N</text>
+            <!-- timbro con i nomi (proposta 1, assets/js/bussola.js); posizione scelta perché resti
+                 intero anche su telefono, dove si vede solo la striscia x 60-540, e lontano dal percorso -->
+            <g class="ma-compass" transform="translate(440 405)">
+              <circle class="ma-compass-halo" r="93"/>
+              <g data-bussola="timbro" transform="scale(.44)" style="color:#E2CE9C;--paper:#1A5154"></g>
             </g>
             <text class="ma-title" x="78" y="140">Il nostro itinerario</text>
             <text class="ma-sub" x="80" y="163">11 · 06 · 2027</text>
@@ -101,7 +101,6 @@
     <div class="hero__media" data-slot="hero-media"></div>
     <div class="hero__veil" aria-hidden="true"></div>
     <div class="hero__content">
-      <div class="hero__rose" data-bussola="rosa" aria-hidden="true"></div>
       <p class="hero__phrase" data-slot="hero-phrase"></p>
       <h1 class="hero__names" data-slot="hero-names"></h1>
       <p class="hero__date" data-slot="hero-date"></p>
