@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1F5F63">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Variante di prova: tutti i percorsi partono dalla radice del sito -->
+  <base href="../../">
+  <title>Variante luce · Luisa e Riccardo</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/pinyon-script-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="varianti/topografica/topografica.css">
+  <!-- Variante G: come la F, con le foto nuove (DSC02044 in copertina e nel messaggio, DSC02026 nel conto alla rovescia).
+       Ogni punto ha la stessa foto su telefono e computer: cambia solo il ritaglio. -->
+  <style>
+    /* sfondo del conto alla rovescia: una foto diversa dalla copertina (la carica lo script in fondo) */
+    .section--countdown { background-image: var(--luce-countdown-bg, none); }
+  </style>
+  <script>
+    // La mappa d'apertura compare una volta per sessione (con ?mappa sempre);
+    // con "riduci movimento" non compare.
+    (function (h) {
+      h.classList.add('js');
+      var show = /[?&]mappa\b/.test(location.search);
+      try { show = show || !sessionStorage.getItem('topografica-mappa'); } catch (e) { show = true; }
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) show = false;
+      h.classList.add(show ? 'map-pending' : 'map-seen');
+    })(document.documentElement);
+  </script>
+</head>
+<body>
+  <!-- Mappa d'apertura in stile topografico (curve di livello avorio su petrolio): chiusa a libro,
+       si apre toccandola; il percorso si disegna, l'aereo arriva a destinazione e la mappa
+       si allontana scoprendo la copertina -->
+  <div class="mapcover" id="mapcover">
+    <div class="map">
+      <div class="map__panel map__panel--l" aria-hidden="true">
+        <svg class="map__art" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <g id="map-art">
+            <defs>
+              <radialGradient id="mt-vignette" cx="50%" cy="45%" r="70%">
+                <stop offset="0" stop-color="#2A7276" stop-opacity=".55"/>
+                <stop offset=".6" stop-color="#1F5F63" stop-opacity="0"/>
+                <stop offset="1" stop-color="#123B3E" stop-opacity=".75"/>
+              </radialGradient>
+            </defs>
+            <rect class="mt-sea" width="600" height="600"/>
+            <rect width="600" height="600" fill="url(#mt-vignette)"/>
+            <!-- curve di livello: le disegna topografica.js (stesso disegno a ogni visita) -->
+            <image class="map-topo" x="0" y="0" width="600" height="600" preserveAspectRatio="none"/>
+            <!-- timbro con i nomi (proposta 1, assets/js/bussola.js); posizione scelta perché resti
+                 intero anche su telefono, dove si vede solo la striscia x 60-540, e lontano dal percorso -->
+            <g class="ma-compass" transform="translate(440 405)">
+              <circle class="ma-compass-halo" r="93"/>
+              <g data-bussola="timbro" transform="scale(.44)" style="color:#FFFDF9;--paper:#1A5154"></g>
+            </g>
+            <text class="ma-title" x="78" y="140">Il nostro itinerario</text>
+            <text class="ma-sub" x="80" y="163">11 · 06 · 2027</text>
+          </g>
+        </svg>
+      </div>
+      <div class="map__panel map__panel--r" aria-hidden="true">
+        <div class="map__face map__face--front">
+          <!-- copia del disegno di sinistra, fatta da topografica.js: con <use> Safari su iPhone
+               non mostrava l'immagine delle curve di livello -->
+          <svg class="map__art" id="map-art-copy" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" focusable="false"></svg>
+        </div>
+        <div class="map__face map__face--back">
+          <div class="map__topo" aria-hidden="true"></div>
+          <div class="map__cover">
+            <p class="map__kicker">Itinerario di nozze</p>
+            <div class="map__emblem" data-bussola="rosa"></div>
+            <p class="map__names" data-cover="names"></p>
+            <p class="map__date" data-cover="date"></p>
+          </div>
+        </div>
+      </div>
+      <svg class="map__route" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <mask id="map-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="600" height="600">
+            <path id="map-mask-path" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"
+                  d="M110 455C190 470 250 430 240 375C230 320 150 320 168 270C186 222 300 238 330 268C360 298 425 285 430 205"/>
+          </mask>
+        </defs>
+        <path class="mr-ghost" d="M110 455C190 470 250 430 240 375C230 320 150 320 168 270C186 222 300 238 330 268C360 298 425 285 430 205"/>
+        <path class="mr-route" id="map-path" mask="url(#map-mask)"
+              d="M110 455C190 470 250 430 240 375C230 320 150 320 168 270C186 222 300 238 330 268C360 298 425 285 430 205"/>
+        <circle class="mr-start" cx="110" cy="455" r="5"/>
+        <g id="map-stops"></g>
+        <g transform="translate(430 205)"><g class="mr-pin">
+          <path d="M0 0C-6-9-11-14-11-21a11 11 0 0 1 22 0C11-14 6-9 0 0z"/><circle cy="-21" r="4"/>
+        </g></g>
+        <text class="mr-dest" x="430" y="160" text-anchor="middle" data-cover="town"></text>
+        <g id="map-plane" transform="translate(110 455)"><g class="mr-plane"><circle r="15"/>
+          <path transform="scale(1.05) translate(-12 -12)" d="M12 2c.8 0 1.3.9 1.3 2v5.2l7.2 4.3v1.9l-7.2-2.2v4.6l2 1.5v1.6l-3.3-1-3.3 1v-1.6l2-1.5v-4.6l-7.2 2.2v-1.9l7.2-4.3V4c0-1.1.5-2 1.3-2z"/>
+        </g></g>
+      </svg>
+    </div>
+    <button class="mapcover__btn" type="button" aria-label="Apri l'invito"></button>
+    <p class="mapcover__hint" aria-hidden="true">Tocca la mappa per aprirla</p>
+  </div>
+
+  <a class="skip-link" href="varianti/luce/#intro">Vai al contenuto</a>
+
+  <header class="hero" id="hero">
+    <div class="hero__media" data-slot="hero-media"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+    <div class="hero__content">
+      <p class="hero__phrase" data-slot="hero-phrase"></p>
+      <h1 class="hero__names" data-slot="hero-names"></h1>
+      <p class="hero__date" data-slot="hero-date"></p>
+    </div>
+    <!-- la linea di scorrimento qui è nascosta: al suo posto parte il percorso con l'aereo -->
+    <a class="hero__scroll" href="varianti/luce/#intro" aria-label="Scorri verso il basso">
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+  </header>
+
+  <main>
+    <section class="section section--intro" id="intro" aria-labelledby="intro-title">
+      <div class="container intro">
+        <div class="intro__text">
+          <p class="eyebrow" data-reveal>Cari amici e parenti</p>
+          <h2 class="title" id="intro-title" data-slot="intro-title" data-reveal></h2>
+          <div class="ornament" aria-hidden="true" data-reveal></div>
+          <div class="prose" data-slot="intro-text"></div>
+          <p class="signature" data-slot="intro-signature" data-reveal></p>
+        </div>
+        <figure class="intro__photo" data-slot="intro-photo" data-reveal></figure>
+      </div>
+    </section>
+
+    <section class="section section--countdown" id="countdown" aria-labelledby="countdown-title">
+      <div class="container center">
+        <p class="eyebrow" data-reveal data-slot="countdown-date"></p>
+        <h2 class="title" id="countdown-title" data-slot="countdown-title" data-reveal></h2>
+        <div class="countdown" data-slot="countdown" data-reveal></div>
+        <div class="actions" data-reveal>
+          <button class="btn" type="button" data-action="ics">Aggiungi al calendario</button>
+          <a class="btn btn--ghost" data-slot="gcal" target="_blank" rel="noopener">Google Calendar</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--places" id="luoghi" aria-labelledby="places-title">
+      <div class="container">
+        <p class="eyebrow center" data-reveal>Dove</p>
+        <h2 class="title center" id="places-title" data-reveal>Il luogo</h2>
+        <div class="places" data-slot="places"></div>
+      </div>
+    </section>
+
+    <section class="section section--program" id="programma" aria-labelledby="program-title" data-section="programma">
+      <div class="container narrow">
+        <p class="eyebrow center" data-reveal>La giornata</p>
+        <h2 class="title center" id="program-title" data-slot="program-title" data-reveal></h2>
+        <ol class="timeline" data-slot="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="section section--info" id="info" aria-labelledby="info-title" data-section="info">
+      <div class="container">
+        <p class="eyebrow center" data-reveal>Da sapere</p>
+        <h2 class="title center" id="info-title" data-slot="info-title" data-reveal></h2>
+        <div class="info-grid" data-slot="info"></div>
+      </div>
+    </section>
+
+    <section class="section section--rsvp" id="rsvp" aria-labelledby="rsvp-title" data-section="rsvp">
+      <div class="container narrow center">
+        <p class="eyebrow" data-reveal>Conferma</p>
+        <h2 class="title" id="rsvp-title" data-slot="rsvp-title" data-reveal></h2>
+        <div class="ornament" aria-hidden="true" data-reveal></div>
+        <p class="lead" data-slot="rsvp-deadline" data-reveal></p>
+        <p data-slot="rsvp-text" data-reveal></p>
+        <div class="actions" data-slot="rsvp-actions" data-reveal></div>
+      </div>
+    </section>
+
+    <section class="section section--gift" id="regalo" aria-labelledby="gift-title" data-section="regalo">
+      <div class="container narrow center">
+        <p class="eyebrow" data-reveal>Regalo</p>
+        <h2 class="title" id="gift-title" data-slot="gift-title" data-reveal></h2>
+        <p class="lead" data-slot="gift-text" data-reveal></p>
+        <div class="iban-card" data-reveal>
+          <dl>
+            <dt>Intestatari</dt><dd data-slot="gift-holder"></dd>
+            <dt>IBAN</dt><dd class="iban" data-slot="gift-iban"></dd>
+            <dt>Causale</dt><dd data-slot="gift-reason"></dd>
+          </dl>
+          <button class="btn" type="button" data-action="copy-iban">Copia IBAN</button>
+          <p class="iban-card__feedback" role="status" aria-live="polite" data-slot="gift-feedback"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container center">
+      <!-- sigillo con iniziali e data: l'aereo atterra sulla sua freccia del nord -->
+      <div class="footer__monogram footer__seal" data-bussola="sigillo" data-reveal></div>
+      <p class="footer__names" data-slot="footer-names" data-reveal></p>
+      <p class="footer__thanks" data-slot="footer-thanks" data-reveal></p>
+      <div class="actions" data-reveal>
+        <a class="btn btn--light" data-slot="share" target="_blank" rel="noopener">Condividi su WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
+
+  <script src="config.js"></script>
+  <script>
+    // Foto della variante G, solo per questa pagina (config.js resta com'è).
+    // Copertina: DSC02044, verticale intera su telefono, ritaglio 3:2 su computer.
+    // Messaggio: DSC02044 ritagliata 4:5. Conto alla rovescia: DSC02026 (vedi sotto).
+    (function (C) {
+      C.copertina.fotoVerticale   = { src: 'assets/img/luce-verticale',   larghezze: [800, 1200, 1800] };
+      C.copertina.fotoOrizzontale = { src: 'assets/img/luce-orizzontale', larghezze: [1200, 1920, 2560] };
+      C.copertina.alt = 'Il lago Moraine al tramonto, con le cime illuminate che si riflettono nell\'acqua turchese';
+      C.intro.foto = { src: 'assets/img/luce-ritratto', larghezze: [600, 1200] };
+      C.intro.alt = 'Le cime illuminate dal tramonto si riflettono nel lago turchese, tra i pini';
+    })(window.WEDDING);
+  </script>
+  <script src="assets/js/bussola.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="varianti/topografica/topografica.js"></script>
+  <script>
+    // Sfondo del conto alla rovescia (DSC02026), caricato quando la sezione si avvicina.
+    // main.js prepara --countdown-bg con la foto della copertina: qui non viene usata.
+    (function () {
+      var section = document.getElementById('countdown');
+      var foto = { src: 'assets/img/luce-sfondo-orizzontale', larghezze: [1200, 1920] };
+      function load() {
+        var w = foto.larghezze;
+        var size = window.innerWidth * (window.devicePixelRatio || 1) > w[0] ? w[w.length - 1] : w[0];
+        var abs = new URL(foto.src + '-' + size + '.webp', document.baseURI).href;
+        section.style.setProperty('--luce-countdown-bg', 'url("' + abs + '")');
+      }
+      if (!('IntersectionObserver' in window)) return load();
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { load(); io.disconnect(); }
+      }, { rootMargin: '600px 0px' });
+      io.observe(section);
+    })();
+  </script>
+</body>
+</html>
