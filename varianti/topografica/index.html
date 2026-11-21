@@ -44,12 +44,12 @@
             <rect class="mt-sea" width="600" height="600"/>
             <rect width="600" height="600" fill="url(#mt-vignette)"/>
             <!-- curve di livello: le disegna topografica.js (stesso disegno a ogni visita) -->
-            <image id="map-topo" x="0" y="0" width="600" height="600" preserveAspectRatio="none"/>
+            <image class="map-topo" x="0" y="0" width="600" height="600" preserveAspectRatio="none"/>
             <!-- timbro con i nomi (proposta 1, assets/js/bussola.js); posizione scelta perché resti
                  intero anche su telefono, dove si vede solo la striscia x 60-540, e lontano dal percorso -->
             <g class="ma-compass" transform="translate(440 405)">
               <circle class="ma-compass-halo" r="93"/>
-              <g data-bussola="timbro" transform="scale(.44)" style="color:#E2CE9C;--paper:#1A5154"></g>
+              <g data-bussola="timbro" transform="scale(.44)" style="color:#FFFDF9;--paper:#1A5154"></g>
             </g>
             <text class="ma-title" x="78" y="140">Il nostro itinerario</text>
             <text class="ma-sub" x="80" y="163">11 · 06 · 2027</text>
@@ -58,7 +58,9 @@
       </div>
       <div class="map__panel map__panel--r" aria-hidden="true">
         <div class="map__face map__face--front">
-          <svg class="map__art" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" focusable="false"><use href="#map-art"/></svg>
+          <!-- copia del disegno di sinistra, fatta da topografica.js: con <use> Safari su iPhone
+               non mostrava l'immagine delle curve di livello -->
+          <svg class="map__art" id="map-art-copy" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" focusable="false"></svg>
         </div>
         <div class="map__face map__face--back">
           <div class="map__topo" aria-hidden="true"></div>

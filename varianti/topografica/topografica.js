@@ -143,9 +143,18 @@
     }
   }
 
+  // metà destra della mappa: copia vera del disegno (gli id restano solo all'originale)
+  var artCopy = document.getElementById('map-art-copy');
+  var art = document.getElementById('map-art');
+  if (artCopy && art) {
+    var copy = art.cloneNode(true);
+    copy.removeAttribute('id');
+    copy.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+    artCopy.append(copy);
+  }
+
   function applyTopography(url) {
-    var img = document.getElementById('map-topo');
-    if (img) img.setAttribute('href', url);
+    document.querySelectorAll('.map-topo').forEach(function (img) { img.setAttribute('href', url); });
     html.style.setProperty('--topo', 'url("' + url + '")');
     html.classList.add('has-topo');
   }

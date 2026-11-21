@@ -138,6 +138,9 @@ html.map-pending { overflow: hidden; }
 /* disegno della mappa: petrolio con curve di livello avorio, dettagli oro */
 .mt-sea { fill: var(--accento); }
 .ma-compass .ma-compass-halo { fill: rgba(18, 59, 62, .55); stroke: none; }
+/* bussola bianca; avorio-oro solo sul bordo puntinato e sui punti cardinali */
+.ma-compass .bs-dots { stroke: #E2CE9C; }
+.ma-compass .bs-card { fill: #E2CE9C; }
 /* il bordo petrolio sotto le lettere le stacca dalle curve di livello */
 .ma-title, .ma-sub, .mr-dest { paint-order: stroke; stroke: #194E51; stroke-linejoin: round; }
 .ma-title { font: italic 400 30px var(--serif); fill: var(--chiaro); stroke-width: 7px; }
