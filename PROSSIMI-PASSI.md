@@ -55,6 +55,25 @@ Il dominio è su **IONOS** (nameserver `ui-dns`). Il 2/11/2026 il sito risponde 
 - F (topografica, 14/11/2026): come la E, con curve di livello generate nel browser (seme fisso) e aereo
   con movimento smorzato. Provata solo in Chrome; se piace il movimento, si può portare anche nella E.
 - Non ancora provato: Safari iOS (IndexedDB, navigazione privata) e la copia dell'IBAN su un telefono vero.
+- Bussola (15/11/2026): scelti 1 · Timbro e 6 · Sigillo da `/varianti/bussola/` (`assets/js/bussola.js`).
+  Messi nel sito principale (timbro al posto della firma, sigillo nel piè di pagina) e nella F
+  (rosa sulla copertina chiusa, timbro con i nomi sulla mappa aperta, sigillo dove atterra l'aereo).
+  La E per ora resta senza, per scelta dell'utente.
+- [ ] **Pulizia delle varianti** (da fare insieme): decidere quali tenere tra A–F e la pagina delle proposte
+  della bussola; spostare o togliere le altre e aggiornare l'elenco in `varianti/index.html`.
+
+## 6b. Invito da stampare (`/stampa/`, 21/11/2026)
+
+A5 fronte e retro; due fronti a scelta (`?fronte=topo` carta topografica con il timbro, `?fronte=foto` foto del lago),
+stesso retro con i testi da `config.js` e un QR statico (`stampa/qr-sito.svg`, generato con `segno`) verso
+`https://riccardoeluisa.it/` **senza la chiave dell'IBAN**: dal QR la sezione regalo non compare.
+Foto per la stampa: `stampa/lago-stampa-1800.jpg` (da `stats/img/DSC02044.jpg`, diversa dalla copertina del sito),
+centrata in un bordo bianco caldo di 12 mm con le curve di livello in petrolio, cornice petrolio a doppio filetto
+intorno alla foto; velo petrolio sulle nuvole chiare per leggere nomi e data.
+Provato in Chrome headless (PDF A5 di 2 pagine, QR decodificato); non ancora stampato su carta.
+
+- [ ] Scegliere il fronte; aggiornare orario e programma in `config.js` prima di stampare.
+- [ ] Per una tipografia: aggiungere 3 mm di margine al vivo (da chiedere alla tipografia).
 
 ## 7. Fuori da questo repository
 

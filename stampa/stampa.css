@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Invito da stampare: A5 verticale, fronte e retro, nello stile della variante
+   topografica. Misure in mm e pt, perché contano sulla carta.
+   ========================================================================== */
+
+@page { size: A5 portrait; margin: 0; }
+
+html, body { background: #E6E1D6; }
+body { margin: 0; padding: 0 0 12mm; font-weight: 300; }
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+/* --- Barra a schermo ---------------------------------------------------- */
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;
+  max-width: 46rem; margin: 0 auto; padding: 1.25rem 1rem;
+  font-size: .95rem; line-height: 1.5; text-align: center;
+}
+.toolbar p { margin: 0; flex: 1 1 22rem; }
+.toolbar__switch { font-weight: 400; }
+.toolbar__switch a { color: var(--accento); }
+.toolbar__switch a[aria-current] { font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--oro); }
+
+/* un solo fronte alla volta (anche in stampa) */
+html:not([data-fronte="foto"]) [data-front="foto"],
+html[data-fronte="foto"] [data-front="topo"] { display: none; }
+
+/* --- Foglio ------------------------------------------------------------- */
+.sheet {
+  position: relative; overflow: hidden;
+  width: 148mm; height: 210mm; margin: 0 auto 10mm;
+  box-shadow: 0 18px 40px -22px rgba(16, 38, 40, .45);
+  break-after: page; page-break-after: always;
+}
+.sheet:last-of-type { break-after: auto; page-break-after: auto; }
+.topo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.topo path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* a schermo stretto il foglio si riduce in proporzione */
+@media screen and (max-width: 600px) {
+  .sheet { zoom: calc(100vw / 160mm); }
+}
+
+@media print {
+  html, body { background: none; }
+  body { padding: 0; }
+  .toolbar { display: none; }
+  .sheet { margin: 0; box-shadow: none; zoom: 1; }
+}
+
+/* --- Fronte ------------------------------------------------------------- */
+.sheet--front { background: var(--accento); color: var(--chiaro); }
+.sheet--front .topo { color: var(--chiaro); }
+.sheet--front .tp-min { stroke-opacity: .2; stroke-width: .7; }
+.sheet--front .tp-maj { stroke-opacity: .42; stroke-width: 1.15; }
+.sheet--front .tp-grid { stroke-opacity: .07; stroke-width: .7; }
+.sheet--front .tp-crater { stroke-opacity: .26; stroke-width: .6; }
+/* luce al centro e bordi più scuri, come la mappa del sito */
+.sheet--front::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 75% 60% at 50% 46%, rgba(42, 114, 118, .5), rgba(31, 95, 99, 0) 60%, rgba(18, 59, 62, .7) 100%);
+}
+
+.front {
+  position: relative; z-index: 1; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 18mm 14mm; text-align: center;
+}
+.front__kicker, .front__place {
+  margin: 0;
+  font: 500 7.5pt/1.6 var(--sans); letter-spacing: .34em; text-transform: uppercase;
+  color: #D9C597;
+}
+.front__kicker { margin-bottom: 9mm; }
+.front__place { margin-top: 9mm; }
+
+/* timbro bianco su alone petrolio; oro solo sul bordo puntinato e sui punti cardinali */
+.front__stamp {
+  --paper: #1A5154;
+  position: relative; width: 112mm; color: var(--chiaro);
+}
+.front__stamp::before {
+  content: ""; position: absolute; inset: 1%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(26, 81, 84, .95) 0 62%, rgba(26, 81, 84, 0) 71%);
+}
+.front__stamp .bs-dots { stroke: #E2CE9C; }
+.front__stamp .bs-card { fill: #E2CE9C; }
+
+/* --- Fronte con la foto --------------------------------------------------- */
+/* bordo bianco caldo con le curve di livello in petrolio, come una carta topografica */
+.sheet--photo { background: var(--fondo-alt); color: var(--chiaro); }
+.sheet--photo .topo { color: var(--accento); }
+.sheet--photo .tp-min { stroke-opacity: .16; stroke-width: .7; }
+.sheet--photo .tp-maj { stroke-opacity: .32; stroke-width: 1.1; }
+.sheet--photo .tp-grid { stroke-opacity: .05; stroke-width: .7; }
+.sheet--photo .tp-crater { stroke-opacity: .2; stroke-width: .6; }
+/* finestra della foto: 12 mm di bordo su ogni lato */
+.window { position: absolute; inset: 12mm; overflow: hidden; background: var(--accento); }
+.frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+.frame rect { fill: none; stroke: var(--accento); }
+.frame__bold { stroke-width: .6; }
+.frame__thin { stroke-width: .2; }
+.photo { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
+/* le nuvole di DSC02044 sono chiare: velo petrolio in alto per nomi e cornice,
+   rocce più scure in basso per il luogo, bordi appena scuriti per i filetti */
+.photo__veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(19, 56, 60, .78) 0%, rgba(19, 56, 60, .5) 30%, rgba(19, 56, 60, 0) 50%),
+    linear-gradient(0deg, rgba(16, 40, 44, .75) 0%, rgba(16, 40, 44, 0) 24%);
+}
+.pfront {
+  position: relative; z-index: 1; height: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 11mm 8mm 8mm; text-align: center;
+  text-shadow: 0 1px 10px rgba(16, 34, 38, .45);
+}
+.pfront p { margin: 0; }
+.pfront__kicker, .pfront__date, .pfront__place {
+  font: 500 7.5pt/1.6 var(--sans); letter-spacing: .34em; text-transform: uppercase;
+  font-feature-settings: "lnum" 1;
+}
+.pfront__kicker { color: #E9DAB2; }
+.pfront__names { margin-top: 4mm !important; font: 400 46pt/.95 var(--script); }
+.pfront__names span { display: block; }
+.pfront__names .amp { margin: 1mm 0 .5mm; font-size: .5em; line-height: 1; color: #E9DAB2; }
+.pfront__date { margin-top: 6mm !important; font-size: 10pt; letter-spacing: .3em; }
+.pfront__bottom { margin-top: auto; display: flex; flex-direction: column; align-items: center; }
+.pfront__rose { --paper: transparent; width: 13mm; margin-bottom: 3mm; color: #E9DAB2; filter: drop-shadow(0 1px 4px rgba(16, 34, 38, .5)); }
+.pfront__place { color: #E9DAB2; }
+
+/* --- Retro -------------------------------------------------------------- */
+.sheet--back { --bg: var(--fondo-alt); background: var(--bg); color: var(--testo); }
+.sheet--back .topo {
+  color: var(--salvia);
+  /* curve solo verso i bordi: il centro resta pulito per il testo */
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 55%, #000 100%);
+          mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 55%, #000 100%);
+}
+.sheet--back .tp-min { stroke-opacity: .45; stroke-width: .7; }
+.sheet--back .tp-maj { stroke-opacity: .8; stroke-width: 1.1; }
+.sheet--back .tp-grid, .sheet--back .tp-crater { stroke-opacity: 0; }
+
+.back {
+  position: relative; z-index: 1; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 14mm 16mm; text-align: center;
+}
+.back p { margin: 0; }
+/* numeri allineati di Cormorant (di base sono "all'antica": l'11 sembra II) */
+.back, .back * { font-feature-settings: "lnum" 1; }
+.back .ornament { margin: 5mm auto; width: 26mm; }
+
+.back__eyebrow {
+  font: 500 7pt/1.6 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--oro);
+}
+.back__names { margin-top: 2mm !important; font: 400 34pt/1.15 var(--script); color: var(--accento); }
+.back__invite { margin-top: 1mm !important; font: italic 400 13pt/1.35 var(--serif); }
+
+.back__weekday { font: 500 7.5pt/1.6 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--oro); }
+.back__date { margin-top: .5mm !important; font: 400 24pt/1.1 var(--serif); color: var(--accento); }
+.back__time { margin-top: 1.5mm !important; font: 400 9pt/1.5 var(--sans); letter-spacing: .12em; }
+
+.back__venue { margin-top: 6mm !important; font: 500 14pt/1.2 var(--serif); color: var(--accento); }
+.back__address { margin-top: 1mm !important; font: 300 8.5pt/1.5 var(--sans); }
+
+.back__program {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  width: 100%; margin: 6mm 0 0; padding: 3mm 0 0; list-style: none;
+  border-top: .25mm solid rgba(184, 155, 94, .45);
+}
+.back__program li { padding: 0 1mm; }
+.back__program li + li { border-left: .25mm solid rgba(184, 155, 94, .3); }
+.back__program b { display: block; font: 500 11pt/1.3 var(--serif); color: var(--oro); }
+.back__program span { font: 400 7pt/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+
+.back__rsvp { font: italic 400 11.5pt/1.4 var(--serif); text-wrap: balance; }
+/* QR a sinistra, invito a inquadrarlo a destra; intorno resta bianco (zona di rispetto del codice) */
+.back__qr { display: flex; align-items: center; gap: 5mm; margin-top: 6mm; text-align: left; }
+.back__qr img { width: 22mm; height: 22mm; padding: 2.5mm; background: var(--fondo-alt); }
+.back__qr p { max-width: 46mm; font: 400 8pt/1.55 var(--sans); }
+.back__qr span { display: block; margin-top: .8mm; color: var(--accento); font-weight: 500; letter-spacing: .06em; }
