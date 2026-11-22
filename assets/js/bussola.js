@@ -65,14 +65,14 @@
         rose({ rings: [92, 50], ticks: 88, axes: 182, dots: 118, L: 150, w: 16, Ld: 100, wd: 11, Li: 62, wi: 6 }, id) +
         arrow(0, 190) + arrow(90, 190) + fletch(270, 190) +
         '<text class="bs-card" x="14" y="-168">N</text>' + text(174, 22, 'bs-card', 'E') + text(-176, -10, 'bs-card', 'O') +
-        arc(id, 170, 300, 150, 0, 'bs-script', N1 + ' &amp; ' + N2) + arc(id, 156, -28, 118, 1, 'bs-date', DATE);
+        arc(id, 170, 300, 150, 0, 'bs-script', N1 + ' e ' + N2) + arc(id, 156, -28, 118, 1, 'bs-date', DATE);
     },
     // 6 · Sigillo: rosa piccola, iniziali e data sotto
     sigillo: function (id) {
       return '<g transform="translate(0 -58)">' +
         rose({ rings: [56], ticks: 52, L: 108, w: 13, Ld: 70, wd: 9, Li: 44, wi: 4.5 }, id) + arrow(0, 122) + '</g>' +
         '<path class="bs-ln bs-thin" d="M-158 110H-98M98 110H158"/>' +
-        text(0, 125, 'bs-script', N1.charAt(0) + ' &amp; ' + N2.charAt(0), 'font-size:58px') +
+        text(0, 125, 'bs-script', N1.charAt(0) + ' <tspan class="bs-amp" dx="7">&amp;</tspan> ' + N2.charAt(0), 'font-size:58px') +
         text(0, 176, 'bs-date', DATE, 'font-size:19px');
     },
     // solo la rosa del sigillo, senza scritte (centro in 0,0, raggio circa 125)

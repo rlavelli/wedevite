@@ -335,5 +335,7 @@ a { color: var(--accento); }
 .bs-dots { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 0 7.2; }
 .bs-tk   { fill: none; stroke: currentColor; stroke-width: 5; stroke-dasharray: .7 4.3; }
 .bs-script { font: 400 32px var(--script); fill: currentColor; }
+/* nel sigillo la "&" del Pinyon non si riconosce: si usa quella del Cormorant corsivo */
+.bs-amp { font-family: var(--serif); font-style: italic; }
 .bs-date   { font: 500 15px var(--serif); letter-spacing: .26em; fill: currentColor; font-feature-settings: "lnum"; }
 .bs-card   { font: 500 15px var(--serif); fill: currentColor; }

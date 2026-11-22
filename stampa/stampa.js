@@ -11,7 +11,7 @@
   if (!C) return;
 
   /* --- Testi ------------------------------------------------------------- */
-  // fronte scelto: ?fronte=foto (o #foto), altrimenti topografico.
+  // fronte scelto: ?fronte=foto / ?fronte=petrolio (o #foto, #petrolio), altrimenti topografico.
   // Il cambio avviene nella pagina, senza ricaricarla: funziona anche aprendo il file dal disco.
   var choices = document.querySelectorAll('[data-choice]');
   function setFront(front) {
@@ -21,7 +21,8 @@
       else a.removeAttribute('aria-current');
     });
   }
-  setFront(/[?&]fronte=foto\b|#foto\b/.test(location.search + location.hash) ? 'foto' : 'topo');
+  var asked = /(?:[?&]fronte=|#)(foto|petrolio)\b/.exec(location.search + location.hash);
+  setFront(asked ? asked[1] : 'topo');
   choices.forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
@@ -42,13 +43,13 @@
 
   slot('phrase', C.copertina.frase.replace(/!$/, ''));
   slot('town', town);
-  slot('names', C.coppia.nome1 + ' & ' + C.coppia.nome2);
+  slot('names', C.coppia.nome1 + ' e ' + C.coppia.nome2);
   slot('weekday', day.toLocaleDateString('it-IT', { weekday: 'long' }));
   slot('date', day.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' }));
   slot('time', 'ore ' + C.ora);
   slot('date-dots', C.data.split('-').reverse().join(' · '));
   document.querySelectorAll('[data-slot="names-lines"]').forEach(function (el) {
-    [C.coppia.nome1, '&', C.coppia.nome2].forEach(function (t, k) {
+    [C.coppia.nome1, 'e', C.coppia.nome2].forEach(function (t, k) {
       var s = document.createElement('span');
       if (k === 1) s.className = 'amp';
       s.textContent = t;

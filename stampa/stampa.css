@@ -21,8 +21,11 @@ body { margin: 0; padding: 0 0 12mm; font-weight: 300; }
 .toolbar__switch a[aria-current] { font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--oro); }
 
 /* un solo fronte alla volta (anche in stampa) */
-html:not([data-fronte="foto"]) [data-front="foto"],
-html[data-fronte="foto"] [data-front="topo"] { display: none; }
+[data-front] { display: none; }
+html:not([data-fronte]) [data-front="topo"],
+html[data-fronte="topo"] [data-front="topo"],
+html[data-fronte="foto"] [data-front="foto"],
+html[data-fronte="petrolio"] [data-front="petrolio"] { display: block; }
 
 /* --- Foglio ------------------------------------------------------------- */
 .sheet {
@@ -99,6 +102,14 @@ html[data-fronte="foto"] [data-front="topo"] { display: none; }
 .frame rect { fill: none; stroke: var(--accento); }
 .frame__bold { stroke-width: .6; }
 .frame__thin { stroke-width: .2; }
+/* variante C: bordo petrolio con curve avorio (come il fronte topografico), cornice bianca */
+.sheet--photo-dark { background: var(--accento); }
+.sheet--photo-dark .topo { color: var(--chiaro); }
+.sheet--photo-dark .tp-min { stroke-opacity: .2; }
+.sheet--photo-dark .tp-maj { stroke-opacity: .42; }
+.sheet--photo-dark .tp-grid { stroke-opacity: .07; }
+.sheet--photo-dark .tp-crater { stroke-opacity: .26; }
+.sheet--photo-dark .frame rect { stroke: var(--chiaro); }
 .photo { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
 /* le nuvole di DSC02044 sono chiare: velo petrolio in alto per nomi e cornice,
    rocce più scure in basso per il luogo, bordi appena scuriti per i filetti */

@@ -17,7 +17,7 @@
     <p><strong>Invito da stampare</strong> · A5 (148 × 210 mm), fronte e retro.
       Nella finestra di stampa: formato <b>A5</b>, margini <b>Nessuno</b>, <b>Grafica di sfondo</b> attiva, scala 100%.</p>
     <nav class="toolbar__switch" aria-label="Fronte">
-      Fronte: <a href="stampa/index.html?fronte=topo" data-choice="topo">Topografica</a> · <a href="stampa/index.html?fronte=foto" data-choice="foto">Foto</a>
+      Fronte: <a href="stampa/index.html?fronte=topo" data-choice="topo">Topografica</a> · <a href="stampa/index.html?fronte=foto" data-choice="foto">Foto</a> · <a href="stampa/index.html?fronte=petrolio" data-choice="petrolio">Foto su petrolio</a>
     </nav>
     <button class="btn" type="button" onclick="window.print()">Stampa</button>
   </div>
@@ -37,6 +37,28 @@
   <section class="sheet sheet--photo" data-front="foto" aria-label="Fronte con la foto">
     <svg class="topo" viewBox="0 0 600 851" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"></svg>
     <!-- cornice petrolio: filetto pieno a 2 mm dalla foto e filetto sottile più fuori (unità: mm) -->
+    <svg class="frame" viewBox="0 0 148 210" aria-hidden="true" focusable="false">
+      <rect class="frame__thin" x="8.2" y="8.2" width="131.6" height="193.6"/>
+      <rect class="frame__bold" x="10" y="10" width="128" height="190"/>
+    </svg>
+    <div class="window">
+    <img class="photo" src="stampa/lago-stampa-1800.jpg" alt="">
+    <div class="photo__veil" aria-hidden="true"></div>
+    <div class="pfront">
+      <p class="pfront__kicker" data-slot="phrase"></p>
+      <p class="pfront__names" data-slot="names-lines"></p>
+      <p class="pfront__date" data-slot="date-dots"></p>
+      <div class="pfront__bottom">
+        <div class="pfront__rose" data-bussola="rosa"></div>
+        <p class="pfront__place" data-slot="town"></p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Fronte C: come il B, ma bordo petrolio con le curve di livello avorio e cornice bianca -->
+  <section class="sheet sheet--photo sheet--photo-dark" data-front="petrolio" aria-label="Fronte con la foto su petrolio">
+    <svg class="topo" viewBox="0 0 600 851" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"></svg>
     <svg class="frame" viewBox="0 0 148 210" aria-hidden="true" focusable="false">
       <rect class="frame__thin" x="8.2" y="8.2" width="131.6" height="193.6"/>
       <rect class="frame__bold" x="10" y="10" width="128" height="190"/>

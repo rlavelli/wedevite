@@ -64,7 +64,8 @@ Il dominio è su **IONOS** (nameserver `ui-dns`). Il 2/11/2026 il sito risponde 
 
 ## 6b. Invito da stampare (`/stampa/`, 21/11/2026)
 
-A5 fronte e retro; due fronti a scelta (`?fronte=topo` carta topografica con il timbro, `?fronte=foto` foto del lago),
+A5 fronte e retro; tre fronti a scelta (`?fronte=topo` carta topografica con il timbro, `?fronte=foto` foto del lago
+su bordo bianco, `?fronte=petrolio` stessa foto su bordo petrolio con cornice bianca),
 stesso retro con i testi da `config.js` e un QR statico (`stampa/qr-sito.svg`, generato con `segno`) verso
 `https://riccardoeluisa.it/` **senza la chiave dell'IBAN**: dal QR la sezione regalo non compare.
 Foto per la stampa: `stampa/lago-stampa-1800.jpg` (da `stats/img/DSC02044.jpg`, diversa dalla copertina del sito),
