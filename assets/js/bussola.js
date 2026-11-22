@@ -72,7 +72,10 @@
       return '<g transform="translate(0 -58)">' +
         rose({ rings: [56], ticks: 52, L: 108, w: 13, Ld: 70, wd: 9, Li: 44, wi: 4.5 }, id) + arrow(0, 122) + '</g>' +
         '<path class="bs-ln bs-thin" d="M-158 110H-98M98 110H158"/>' +
-        text(0, 125, 'bs-script', N1.charAt(0) + ' <tspan class="bs-amp" dx="7">&amp;</tspan> ' + N2.charAt(0), 'font-size:58px') +
+        // iniziali in tre pezzi: la "&" esattamente sotto l'ago, L e R alla stessa distanza ai lati
+        text(-40, 125, 'bs-script', N1.charAt(0), 'font-size:58px;text-anchor:end') +
+        text(0, 123, 'bs-script bs-amp', '&amp;', 'font-size:46px') +
+        text(28, 125, 'bs-script', N2.charAt(0), 'font-size:58px;text-anchor:start') +
         text(0, 176, 'bs-date', DATE, 'font-size:19px');
     },
     // solo la rosa del sigillo, senza scritte (centro in 0,0, raggio circa 125)
